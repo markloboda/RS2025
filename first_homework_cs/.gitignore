@@ -5,7 +5,6 @@ test2.out
 hpc_gemm_v2
 hpc_gemm_sol.c
 hpc_gemm_sol
-*.bin 
-*.txt
+*.bin
 *.o
 *.code-workspace
