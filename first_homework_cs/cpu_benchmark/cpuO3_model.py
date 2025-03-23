@@ -67,7 +67,7 @@ class O3CPUCore(X86O3CPU):
         self.numPhysIntRegs = num_int_regs
         self.numPhysFloatRegs = num_fp_regs
 
-        self.branchPred = LocalBP()
+        self.branchPred = MultiperspectivePerceptronTAGE64KB()
 
         self.LQEntries = 128
         self.SQEntries = 128
