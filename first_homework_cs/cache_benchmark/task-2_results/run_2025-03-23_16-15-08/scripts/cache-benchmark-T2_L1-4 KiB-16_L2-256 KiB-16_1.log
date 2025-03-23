@@ -1,0 +1,23 @@
+warn: Base 10 memory/cache size 2GB will be cast to base 2 size 2GiB.
+warn: The `CustomResource` class is deprecated. Please use an `AbstractResource` subclass instead.
+Global frequency set at 1000000000000 ticks per second
+src/mem/dram_interface.cc:690: warn: DRAM device capacity (8192 Mbytes) does not match the address range assigned (2048 Mbytes)
+src/base/statistics.hh:279: warn: One of the stats is a legacy stat. Legacy stat is a stat that does not belong to any statistics::Group. Legacy stat is deprecated.
+src/base/remote_gdb.cc:418: warn: Sockets disabled, not accepting gdb connections
+gem5 Simulator System.  https://www.gem5.org
+gem5 is copyrighted software; use the --copyright option for details.
+
+gem5 version 24.1.0.2
+gem5 compiled Mar  3 2025 10:58:01
+gem5 started Mar 23 2025 16:15:34
+gem5 executing on wn141.arnes.si, pid 131012
+command line: /d/hpc/projects/FRI/GEM5/gem5_workspace/gem5/build/X86/gem5.opt '--outdir=/d/hpc/home/sg7710/rs/rs-dn1/cache_benchmark/task-2_results/run_2025-03-23_16-15-08/benchmarks/L1-4 KiB-16_L2-256 KiB-16_1' cache_benchmark.py '--l1_size=4 KiB' '--l2_size=256 KiB' --l1_assoc=16 --l2_assoc=16 --mult_version=1
+
+info: Standard input is not a terminal, disabling listeners.
+src/sim/simulate.cc:199: info: Entering event queue @ 0.  Starting simulation...
+src/sim/mem_state.cc:448: info: Increasing stack size by one page.
+src/sim/syscall_emul.cc:86: warn: ignoring syscall set_robust_list(...)
+src/sim/syscall_emul.cc:86: warn: ignoring syscall rseq(...)
+src/sim/syscall_emul.cc:86: warn: ignoring syscall mprotect(...)
+src/sim/syscall_emul.cc:86: warn: ignoring syscall mprotect(...)
+src/sim/syscall_emul.cc:86: warn: ignoring syscall mprotect(...)
