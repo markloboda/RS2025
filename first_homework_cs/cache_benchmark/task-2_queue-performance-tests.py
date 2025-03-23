@@ -49,7 +49,7 @@ def prepare_and_save_job_script(
     )
 
     job_script_file_name: str = \
-        f"cache-benchmark_L1-{l1_cache_size}-{l1_cache_associativity}" \
+        f"cache-benchmark-T2_L1-{l1_cache_size}-{l1_cache_associativity}" \
         f"_L2-{l2_cache_size}-{l2_cache_associativity}" \
         f"_{multiplication_program_version}"
 
@@ -69,7 +69,7 @@ def prepare_and_save_job_script(
 
     job_script = f"""#!/bin/bash
 #SBATCH --reservation=fri
-#SBATCH --job-name=rs-cache-perf-t1_{job_parameter_hash}
+#SBATCH --job-name=rs-cache-perf-t2_{job_parameter_hash}
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --output=\"{job_log_file_path.as_posix()}\"
@@ -141,17 +141,12 @@ def prepare_and_queue_job(
 
 
 
-
-L1_CACHE_SIZES: List[str] = [
-    "1 KiB",
-    "2 KiB",
-    "4 KiB",
-    "8 KiB"
-]
-
-L2_CACHE_SIZES: List[str] = [
-    "32 KiB",
-    "64 KiB"
+CACHE_ASSOCIATIVITY: List[int] = [
+    1,
+    2,
+    4,
+    8,
+    16
 ]
 
 MAT_MULT_PROGRAM_VERSIONS: List[int] = [
@@ -190,14 +185,14 @@ def main():
     benchmark_results_base_directory_path: Path = timestamped_output_directory_path.joinpath("benchmarks")
     benchmark_results_base_directory_path.mkdir(parents=True, exist_ok=False)
 
-    for l1_cache_size in L1_CACHE_SIZES:
-        for l2_cache_size in L2_CACHE_SIZES:
+    for l1_cache_associativity in CACHE_ASSOCIATIVITY:
+        for l2_cache_associativity in CACHE_ASSOCIATIVITY:
             for program_version in MAT_MULT_PROGRAM_VERSIONS:
                 prepare_and_queue_job(
-                    l1_cache_size=l1_cache_size,
-                    l2_cache_size=l2_cache_size,
-                    l1_cache_associativity=16,
-                    l2_cache_associativity=16,
+                    l1_cache_size="4 KiB",
+                    l2_cache_size="256 KiB",
+                    l1_cache_associativity=l1_cache_associativity,
+                    l2_cache_associativity=l2_cache_associativity,
                     multiplication_program_version=program_version,
                     job_script_output_directory_path=job_scripts_base_directory_path,
                     benchmark_output_directory_path=benchmark_results_base_directory_path
