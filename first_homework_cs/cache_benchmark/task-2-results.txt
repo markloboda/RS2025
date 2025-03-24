@@ -1,0 +1,829 @@
+> python .\task-1_analyze-performance-tests.py --run-directory-path .\task-2_results\run_2025-03-23_16-15-08\
+Found 75 results in provided directory.
+
+Run 1:
+  L1: 4 KiB (associativity: 1)
+  L2: 256 KiB (associativity: 1)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.267
+  > Total cycles: 515089702
+  > L1 Data Cache Miss Rate (Read): 0.357
+  > L1 Data Cache Miss Rate (Write): 0.0312
+  > L2 Cache Miss Rate (Overall): 0.00785
+
+Run 2:
+  L1: 4 KiB (associativity: 1)
+  L2: 256 KiB (associativity: 1)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.268
+  > Total cycles: 513999825
+  > L1 Data Cache Miss Rate (Read): 0.357
+  > L1 Data Cache Miss Rate (Write): 0.0312
+  > L2 Cache Miss Rate (Overall): 0.00755
+
+Run 3:
+  L1: 4 KiB (associativity: 1)
+  L2: 256 KiB (associativity: 1)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.267
+  > Total cycles: 515660882
+  > L1 Data Cache Miss Rate (Read): 0.357
+  > L1 Data Cache Miss Rate (Write): 0.0312
+  > L2 Cache Miss Rate (Overall): 0.00787
+
+Run 4:
+  L1: 4 KiB (associativity: 1)
+  L2: 256 KiB (associativity: 2)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.275
+  > Total cycles: 499986747
+  > L1 Data Cache Miss Rate (Read): 0.357
+  > L1 Data Cache Miss Rate (Write): 0.0312
+  > L2 Cache Miss Rate (Overall): 0.00327
+
+Run 5:
+  L1: 4 KiB (associativity: 1)
+  L2: 256 KiB (associativity: 2)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.276
+  > Total cycles: 498996999
+  > L1 Data Cache Miss Rate (Read): 0.357
+  > L1 Data Cache Miss Rate (Write): 0.0312
+  > L2 Cache Miss Rate (Overall): 0.00298
+
+Run 6:
+  L1: 4 KiB (associativity: 1)
+  L2: 256 KiB (associativity: 2)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.275
+  > Total cycles: 500527324
+  > L1 Data Cache Miss Rate (Read): 0.357
+  > L1 Data Cache Miss Rate (Write): 0.0312
+  > L2 Cache Miss Rate (Overall): 0.00328
+
+Run 7:
+  L1: 4 KiB (associativity: 1)
+  L2: 256 KiB (associativity: 4)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 493277841
+  > L1 Data Cache Miss Rate (Read): 0.357
+  > L1 Data Cache Miss Rate (Write): 0.0312
+  > L2 Cache Miss Rate (Overall): 0.00166
+
+Run 8:
+  L1: 4 KiB (associativity: 1)
+  L2: 256 KiB (associativity: 4)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.28
+  > Total cycles: 492232014
+  > L1 Data Cache Miss Rate (Read): 0.357
+  > L1 Data Cache Miss Rate (Write): 0.0312
+  > L2 Cache Miss Rate (Overall): 0.00138
+
+Run 9:
+  L1: 4 KiB (associativity: 1)
+  L2: 256 KiB (associativity: 4)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 493812716
+  > L1 Data Cache Miss Rate (Read): 0.357
+  > L1 Data Cache Miss Rate (Write): 0.0312
+  > L2 Cache Miss Rate (Overall): 0.00167
+
+Run 10:
+  L1: 4 KiB (associativity: 1)
+  L2: 256 KiB (associativity: 8)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 492948145
+  > L1 Data Cache Miss Rate (Read): 0.357
+  > L1 Data Cache Miss Rate (Write): 0.0312
+  > L2 Cache Miss Rate (Overall): 0.00171
+
+Run 11:
+  L1: 4 KiB (associativity: 1)
+  L2: 256 KiB (associativity: 8)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.28
+  > Total cycles: 491788910
+  > L1 Data Cache Miss Rate (Read): 0.357
+  > L1 Data Cache Miss Rate (Write): 0.0312
+  > L2 Cache Miss Rate (Overall): 0.00131
+
+Run 12:
+  L1: 4 KiB (associativity: 1)
+  L2: 256 KiB (associativity: 8)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 493311448
+  > L1 Data Cache Miss Rate (Read): 0.357
+  > L1 Data Cache Miss Rate (Write): 0.0312
+  > L2 Cache Miss Rate (Overall): 0.00159
+
+Run 13:
+  L1: 4 KiB (associativity: 1)
+  L2: 256 KiB (associativity: 16)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 492946492
+  > L1 Data Cache Miss Rate (Read): 0.357
+  > L1 Data Cache Miss Rate (Write): 0.0312
+  > L2 Cache Miss Rate (Overall): 0.00161
+
+Run 14:
+  L1: 4 KiB (associativity: 1)
+  L2: 256 KiB (associativity: 16)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.28
+  > Total cycles: 491367364
+  > L1 Data Cache Miss Rate (Read): 0.357
+  > L1 Data Cache Miss Rate (Write): 0.0312
+  > L2 Cache Miss Rate (Overall): 0.00116
+
+Run 15:
+  L1: 4 KiB (associativity: 1)
+  L2: 256 KiB (associativity: 16)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 493243546
+  > L1 Data Cache Miss Rate (Read): 0.357
+  > L1 Data Cache Miss Rate (Write): 0.0312
+  > L2 Cache Miss Rate (Overall): 0.00153
+
+Run 16:
+  L1: 4 KiB (associativity: 2)
+  L2: 256 KiB (associativity: 1)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.309
+  > Total cycles: 445810931
+  > L1 Data Cache Miss Rate (Read): 0.277
+  > L1 Data Cache Miss Rate (Write): 0.0057
+  > L2 Cache Miss Rate (Overall): 0.00773
+
+Run 17:
+  L1: 4 KiB (associativity: 2)
+  L2: 256 KiB (associativity: 1)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.31
+  > Total cycles: 444901441
+  > L1 Data Cache Miss Rate (Read): 0.277
+  > L1 Data Cache Miss Rate (Write): 0.0057
+  > L2 Cache Miss Rate (Overall): 0.00742
+
+Run 18:
+  L1: 4 KiB (associativity: 2)
+  L2: 256 KiB (associativity: 1)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.309
+  > Total cycles: 446365927
+  > L1 Data Cache Miss Rate (Read): 0.277
+  > L1 Data Cache Miss Rate (Write): 0.0057
+  > L2 Cache Miss Rate (Overall): 0.00776
+
+Run 19:
+  L1: 4 KiB (associativity: 2)
+  L2: 256 KiB (associativity: 2)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.314
+  > Total cycles: 438550822
+  > L1 Data Cache Miss Rate (Read): 0.277
+  > L1 Data Cache Miss Rate (Write): 0.0057
+  > L2 Cache Miss Rate (Overall): 0.00419
+
+Run 20:
+  L1: 4 KiB (associativity: 2)
+  L2: 256 KiB (associativity: 2)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.315
+  > Total cycles: 437685829
+  > L1 Data Cache Miss Rate (Read): 0.277
+  > L1 Data Cache Miss Rate (Write): 0.0057
+  > L2 Cache Miss Rate (Overall): 0.00389
+
+Run 21:
+  L1: 4 KiB (associativity: 2)
+  L2: 256 KiB (associativity: 2)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.314
+  > Total cycles: 439055291
+  > L1 Data Cache Miss Rate (Read): 0.277
+  > L1 Data Cache Miss Rate (Write): 0.0057
+  > L2 Cache Miss Rate (Overall): 0.00419
+
+Run 22:
+  L1: 4 KiB (associativity: 2)
+  L2: 256 KiB (associativity: 4)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.319
+  > Total cycles: 432227951
+  > L1 Data Cache Miss Rate (Read): 0.277
+  > L1 Data Cache Miss Rate (Write): 0.0057
+  > L2 Cache Miss Rate (Overall): 0.0021
+
+Run 23:
+  L1: 4 KiB (associativity: 2)
+  L2: 256 KiB (associativity: 4)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.319
+  > Total cycles: 431338531
+  > L1 Data Cache Miss Rate (Read): 0.277
+  > L1 Data Cache Miss Rate (Write): 0.0057
+  > L2 Cache Miss Rate (Overall): 0.0018
+
+Run 24:
+  L1: 4 KiB (associativity: 2)
+  L2: 256 KiB (associativity: 4)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.318
+  > Total cycles: 432774960
+  > L1 Data Cache Miss Rate (Read): 0.277
+  > L1 Data Cache Miss Rate (Write): 0.0057
+  > L2 Cache Miss Rate (Overall): 0.0021
+
+Run 25:
+  L1: 4 KiB (associativity: 2)
+  L2: 256 KiB (associativity: 8)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.319
+  > Total cycles: 431946238
+  > L1 Data Cache Miss Rate (Read): 0.277
+  > L1 Data Cache Miss Rate (Write): 0.00571
+  > L2 Cache Miss Rate (Overall): 0.00216
+
+Run 26:
+  L1: 4 KiB (associativity: 2)
+  L2: 256 KiB (associativity: 8)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.32
+  > Total cycles: 430967502
+  > L1 Data Cache Miss Rate (Read): 0.277
+  > L1 Data Cache Miss Rate (Write): 0.0057
+  > L2 Cache Miss Rate (Overall): 0.00172
+
+Run 27:
+  L1: 4 KiB (associativity: 2)
+  L2: 256 KiB (associativity: 8)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.319
+  > Total cycles: 432351662
+  > L1 Data Cache Miss Rate (Read): 0.277
+  > L1 Data Cache Miss Rate (Write): 0.0057
+  > L2 Cache Miss Rate (Overall): 0.00203
+
+Run 28:
+  L1: 4 KiB (associativity: 2)
+  L2: 256 KiB (associativity: 16)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.319
+  > Total cycles: 431887782
+  > L1 Data Cache Miss Rate (Read): 0.277
+  > L1 Data Cache Miss Rate (Write): 0.0057
+  > L2 Cache Miss Rate (Overall): 0.00201
+
+Run 29:
+  L1: 4 KiB (associativity: 2)
+  L2: 256 KiB (associativity: 16)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.32
+  > Total cycles: 430497190
+  > L1 Data Cache Miss Rate (Read): 0.277
+  > L1 Data Cache Miss Rate (Write): 0.0057
+  > L2 Cache Miss Rate (Overall): 0.00149
+
+Run 30:
+  L1: 4 KiB (associativity: 2)
+  L2: 256 KiB (associativity: 16)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.319
+  > Total cycles: 432302674
+  > L1 Data Cache Miss Rate (Read): 0.277
+  > L1 Data Cache Miss Rate (Write): 0.0057
+  > L2 Cache Miss Rate (Overall): 0.00194
+
+Run 31:
+  L1: 4 KiB (associativity: 4)
+  L2: 256 KiB (associativity: 1)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.287
+  > Total cycles: 480415110
+  > L1 Data Cache Miss Rate (Read): 0.332
+  > L1 Data Cache Miss Rate (Write): 0.000264
+  > L2 Cache Miss Rate (Overall): 0.00618
+
+Run 32:
+  L1: 4 KiB (associativity: 4)
+  L2: 256 KiB (associativity: 1)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.287
+  > Total cycles: 479530610
+  > L1 Data Cache Miss Rate (Read): 0.332
+  > L1 Data Cache Miss Rate (Write): 0.000264
+  > L2 Cache Miss Rate (Overall): 0.00592
+
+Run 33:
+  L1: 4 KiB (associativity: 4)
+  L2: 256 KiB (associativity: 1)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.286
+  > Total cycles: 480946234
+  > L1 Data Cache Miss Rate (Read): 0.332
+  > L1 Data Cache Miss Rate (Write): 0.000264
+  > L2 Cache Miss Rate (Overall): 0.0062
+
+Run 34:
+  L1: 4 KiB (associativity: 4)
+  L2: 256 KiB (associativity: 2)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.291
+  > Total cycles: 473449346
+  > L1 Data Cache Miss Rate (Read): 0.332
+  > L1 Data Cache Miss Rate (Write): 0.00026
+  > L2 Cache Miss Rate (Overall): 0.00353
+
+Run 35:
+  L1: 4 KiB (associativity: 4)
+  L2: 256 KiB (associativity: 2)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.291
+  > Total cycles: 472612903
+  > L1 Data Cache Miss Rate (Read): 0.332
+  > L1 Data Cache Miss Rate (Write): 0.00026
+  > L2 Cache Miss Rate (Overall): 0.00329
+
+Run 36:
+  L1: 4 KiB (associativity: 4)
+  L2: 256 KiB (associativity: 2)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.291
+  > Total cycles: 474005130
+  > L1 Data Cache Miss Rate (Read): 0.332
+  > L1 Data Cache Miss Rate (Write): 0.00026
+  > L2 Cache Miss Rate (Overall): 0.00356
+
+Run 37:
+  L1: 4 KiB (associativity: 4)
+  L2: 256 KiB (associativity: 4)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.295
+  > Total cycles: 466877367
+  > L1 Data Cache Miss Rate (Read): 0.332
+  > L1 Data Cache Miss Rate (Write): 0.000258
+  > L2 Cache Miss Rate (Overall): 0.00172
+
+Run 38:
+  L1: 4 KiB (associativity: 4)
+  L2: 256 KiB (associativity: 4)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.296
+  > Total cycles: 465991759
+  > L1 Data Cache Miss Rate (Read): 0.332
+  > L1 Data Cache Miss Rate (Write): 0.000258
+  > L2 Cache Miss Rate (Overall): 0.00147
+
+Run 39:
+  L1: 4 KiB (associativity: 4)
+  L2: 256 KiB (associativity: 4)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.295
+  > Total cycles: 467431531
+  > L1 Data Cache Miss Rate (Read): 0.332
+  > L1 Data Cache Miss Rate (Write): 0.000258
+  > L2 Cache Miss Rate (Overall): 0.00174
+
+Run 40:
+  L1: 4 KiB (associativity: 4)
+  L2: 256 KiB (associativity: 8)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.295
+  > Total cycles: 466699346
+  > L1 Data Cache Miss Rate (Read): 0.332
+  > L1 Data Cache Miss Rate (Write): 0.00026
+  > L2 Cache Miss Rate (Overall): 0.00181
+
+Run 41:
+  L1: 4 KiB (associativity: 4)
+  L2: 256 KiB (associativity: 8)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.296
+  > Total cycles: 465729476
+  > L1 Data Cache Miss Rate (Read): 0.332
+  > L1 Data Cache Miss Rate (Write): 0.000261
+  > L2 Cache Miss Rate (Overall): 0.00144
+
+Run 42:
+  L1: 4 KiB (associativity: 4)
+  L2: 256 KiB (associativity: 8)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.295
+  > Total cycles: 467131102
+  > L1 Data Cache Miss Rate (Read): 0.332
+  > L1 Data Cache Miss Rate (Write): 0.000261
+  > L2 Cache Miss Rate (Overall): 0.00171
+
+Run 43:
+  L1: 4 KiB (associativity: 4)
+  L2: 256 KiB (associativity: 16)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.295
+  > Total cycles: 466652446
+  > L1 Data Cache Miss Rate (Read): 0.332
+  > L1 Data Cache Miss Rate (Write): 0.00026
+  > L2 Cache Miss Rate (Overall): 0.00169
+
+Run 44:
+  L1: 4 KiB (associativity: 4)
+  L2: 256 KiB (associativity: 16)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.296
+  > Total cycles: 465273392
+  > L1 Data Cache Miss Rate (Read): 0.332
+  > L1 Data Cache Miss Rate (Write): 0.00026
+  > L2 Cache Miss Rate (Overall): 0.00126
+
+Run 45:
+  L1: 4 KiB (associativity: 4)
+  L2: 256 KiB (associativity: 16)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.295
+  > Total cycles: 467083530
+  > L1 Data Cache Miss Rate (Read): 0.332
+  > L1 Data Cache Miss Rate (Write): 0.000261
+  > L2 Cache Miss Rate (Overall): 0.00163
+
+Run 46:
+  L1: 4 KiB (associativity: 8)
+  L2: 256 KiB (associativity: 1)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.27
+  > Total cycles: 510496402
+  > L1 Data Cache Miss Rate (Read): 0.371
+  > L1 Data Cache Miss Rate (Write): 0.000244
+  > L2 Cache Miss Rate (Overall): 0.00651
+
+Run 47:
+  L1: 4 KiB (associativity: 8)
+  L2: 256 KiB (associativity: 1)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.27
+  > Total cycles: 509630224
+  > L1 Data Cache Miss Rate (Read): 0.372
+  > L1 Data Cache Miss Rate (Write): 0.000244
+  > L2 Cache Miss Rate (Overall): 0.00628
+
+Run 48:
+  L1: 4 KiB (associativity: 8)
+  L2: 256 KiB (associativity: 1)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.269
+  > Total cycles: 511081475
+  > L1 Data Cache Miss Rate (Read): 0.372
+  > L1 Data Cache Miss Rate (Write): 0.000244
+  > L2 Cache Miss Rate (Overall): 0.0065
+
+Run 49:
+  L1: 4 KiB (associativity: 8)
+  L2: 256 KiB (associativity: 2)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.274
+  > Total cycles: 502054613
+  > L1 Data Cache Miss Rate (Read): 0.371
+  > L1 Data Cache Miss Rate (Write): 0.000242
+  > L2 Cache Miss Rate (Overall): 0.00355
+
+Run 50:
+  L1: 4 KiB (associativity: 8)
+  L2: 256 KiB (associativity: 2)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.275
+  > Total cycles: 501314803
+  > L1 Data Cache Miss Rate (Read): 0.371
+  > L1 Data Cache Miss Rate (Write): 0.000242
+  > L2 Cache Miss Rate (Overall): 0.00335
+
+Run 51:
+  L1: 4 KiB (associativity: 8)
+  L2: 256 KiB (associativity: 2)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.274
+  > Total cycles: 502687491
+  > L1 Data Cache Miss Rate (Read): 0.371
+  > L1 Data Cache Miss Rate (Write): 0.000242
+  > L2 Cache Miss Rate (Overall): 0.00356
+
+Run 52:
+  L1: 4 KiB (associativity: 8)
+  L2: 256 KiB (associativity: 4)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 494074214
+  > L1 Data Cache Miss Rate (Read): 0.371
+  > L1 Data Cache Miss Rate (Write): 0.000242
+  > L2 Cache Miss Rate (Overall): 0.00151
+
+Run 53:
+  L1: 4 KiB (associativity: 8)
+  L2: 256 KiB (associativity: 4)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 493231926
+  > L1 Data Cache Miss Rate (Read): 0.371
+  > L1 Data Cache Miss Rate (Write): 0.000242
+  > L2 Cache Miss Rate (Overall): 0.0013
+
+Run 54:
+  L1: 4 KiB (associativity: 8)
+  L2: 256 KiB (associativity: 4)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.278
+  > Total cycles: 494648292
+  > L1 Data Cache Miss Rate (Read): 0.371
+  > L1 Data Cache Miss Rate (Write): 0.000242
+  > L2 Cache Miss Rate (Overall): 0.00151
+
+Run 55:
+  L1: 4 KiB (associativity: 8)
+  L2: 256 KiB (associativity: 8)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 493825732
+  > L1 Data Cache Miss Rate (Read): 0.371
+  > L1 Data Cache Miss Rate (Write): 0.000243
+  > L2 Cache Miss Rate (Overall): 0.00156
+
+Run 56:
+  L1: 4 KiB (associativity: 8)
+  L2: 256 KiB (associativity: 8)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 492903041
+  > L1 Data Cache Miss Rate (Read): 0.371
+  > L1 Data Cache Miss Rate (Write): 0.000243
+  > L2 Cache Miss Rate (Overall): 0.00126
+
+Run 57:
+  L1: 4 KiB (associativity: 8)
+  L2: 256 KiB (associativity: 8)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 494276136
+  > L1 Data Cache Miss Rate (Read): 0.371
+  > L1 Data Cache Miss Rate (Write): 0.000243
+  > L2 Cache Miss Rate (Overall): 0.00148
+
+Run 58:
+  L1: 4 KiB (associativity: 8)
+  L2: 256 KiB (associativity: 16)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 493708821
+  > L1 Data Cache Miss Rate (Read): 0.371
+  > L1 Data Cache Miss Rate (Write): 0.000241
+  > L2 Cache Miss Rate (Overall): 0.00145
+
+Run 59:
+  L1: 4 KiB (associativity: 8)
+  L2: 256 KiB (associativity: 16)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.28
+  > Total cycles: 492430413
+  > L1 Data Cache Miss Rate (Read): 0.371
+  > L1 Data Cache Miss Rate (Write): 0.00024
+  > L2 Cache Miss Rate (Overall): 0.00109
+
+Run 60:
+  L1: 4 KiB (associativity: 8)
+  L2: 256 KiB (associativity: 16)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 494222203
+  > L1 Data Cache Miss Rate (Read): 0.371
+  > L1 Data Cache Miss Rate (Write): 0.00024
+  > L2 Cache Miss Rate (Overall): 0.0014
+
+Run 61:
+  L1: 4 KiB (associativity: 16)
+  L2: 256 KiB (associativity: 1)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.269
+  > Total cycles: 512191277
+  > L1 Data Cache Miss Rate (Read): 0.371
+  > L1 Data Cache Miss Rate (Write): 0.00024
+  > L2 Cache Miss Rate (Overall): 0.00714
+
+Run 62:
+  L1: 4 KiB (associativity: 16)
+  L2: 256 KiB (associativity: 1)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.269
+  > Total cycles: 511389488
+  > L1 Data Cache Miss Rate (Read): 0.371
+  > L1 Data Cache Miss Rate (Write): 0.00024
+  > L2 Cache Miss Rate (Overall): 0.00699
+
+Run 63:
+  L1: 4 KiB (associativity: 16)
+  L2: 256 KiB (associativity: 1)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.269
+  > Total cycles: 512800471
+  > L1 Data Cache Miss Rate (Read): 0.371
+  > L1 Data Cache Miss Rate (Write): 0.00024
+  > L2 Cache Miss Rate (Overall): 0.00713
+
+Run 64:
+  L1: 4 KiB (associativity: 16)
+  L2: 256 KiB (associativity: 2)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.274
+  > Total cycles: 502859000
+  > L1 Data Cache Miss Rate (Read): 0.37
+  > L1 Data Cache Miss Rate (Write): 0.000239
+  > L2 Cache Miss Rate (Overall): 0.00359
+
+Run 65:
+  L1: 4 KiB (associativity: 16)
+  L2: 256 KiB (associativity: 2)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.274
+  > Total cycles: 502040625
+  > L1 Data Cache Miss Rate (Read): 0.37
+  > L1 Data Cache Miss Rate (Write): 0.000239
+  > L2 Cache Miss Rate (Overall): 0.00344
+
+Run 66:
+  L1: 4 KiB (associativity: 16)
+  L2: 256 KiB (associativity: 2)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.274
+  > Total cycles: 503420015
+  > L1 Data Cache Miss Rate (Read): 0.37
+  > L1 Data Cache Miss Rate (Write): 0.000239
+  > L2 Cache Miss Rate (Overall): 0.0036
+
+Run 67:
+  L1: 4 KiB (associativity: 16)
+  L2: 256 KiB (associativity: 4)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.278
+  > Total cycles: 494658607
+  > L1 Data Cache Miss Rate (Read): 0.37
+  > L1 Data Cache Miss Rate (Write): 0.000236
+  > L2 Cache Miss Rate (Overall): 0.0015
+
+Run 68:
+  L1: 4 KiB (associativity: 16)
+  L2: 256 KiB (associativity: 4)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 493796393
+  > L1 Data Cache Miss Rate (Read): 0.37
+  > L1 Data Cache Miss Rate (Write): 0.000236
+  > L2 Cache Miss Rate (Overall): 0.00135
+
+Run 69:
+  L1: 4 KiB (associativity: 16)
+  L2: 256 KiB (associativity: 4)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.278
+  > Total cycles: 495190257
+  > L1 Data Cache Miss Rate (Read): 0.37
+  > L1 Data Cache Miss Rate (Write): 0.000236
+  > L2 Cache Miss Rate (Overall): 0.00151
+
+Run 70:
+  L1: 4 KiB (associativity: 16)
+  L2: 256 KiB (associativity: 8)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 494264397
+  > L1 Data Cache Miss Rate (Read): 0.37
+  > L1 Data Cache Miss Rate (Write): 0.000239
+  > L2 Cache Miss Rate (Overall): 0.00155
+
+Run 71:
+  L1: 4 KiB (associativity: 16)
+  L2: 256 KiB (associativity: 8)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 493423723
+  > L1 Data Cache Miss Rate (Read): 0.37
+  > L1 Data Cache Miss Rate (Write): 0.000239
+  > L2 Cache Miss Rate (Overall): 0.0013
+
+Run 72:
+  L1: 4 KiB (associativity: 16)
+  L2: 256 KiB (associativity: 8)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.278
+  > Total cycles: 494746335
+  > L1 Data Cache Miss Rate (Read): 0.37
+  > L1 Data Cache Miss Rate (Write): 0.000239
+  > L2 Cache Miss Rate (Overall): 0.00147
+
+Run 73:
+  L1: 4 KiB (associativity: 16)
+  L2: 256 KiB (associativity: 16)
+  Program implementation: mat_mult1.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 494222983
+  > L1 Data Cache Miss Rate (Read): 0.37
+  > L1 Data Cache Miss Rate (Write): 0.000238
+  > L2 Cache Miss Rate (Overall): 0.00142
+
+Run 74:
+  L1: 4 KiB (associativity: 16)
+  L2: 256 KiB (associativity: 16)
+  Program implementation: mat_mult2.bin
+
+  > Instructions per cycle (IPC): 0.279
+  > Total cycles: 492916355
+  > L1 Data Cache Miss Rate (Read): 0.37
+  > L1 Data Cache Miss Rate (Write): 0.000238
+  > L2 Cache Miss Rate (Overall): 0.00112
+
+Run 75:
+  L1: 4 KiB (associativity: 16)
+  L2: 256 KiB (associativity: 16)
+  Program implementation: mat_mult3.bin
+
+  > Instructions per cycle (IPC): 0.278
+  > Total cycles: 494714298
+  > L1 Data Cache Miss Rate (Read): 0.37
+  > L1 Data Cache Miss Rate (Write): 0.000238
+  > L2 Cache Miss Rate (Overall): 0.00137
+
+DONE
