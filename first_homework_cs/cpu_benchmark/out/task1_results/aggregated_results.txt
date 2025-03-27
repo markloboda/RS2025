@@ -1,0 +1,160 @@
+Run 1:
+  Issue Width: 1
+  Reorder Buffer Size: 16
+
+  > Instructions per cycle (IPC): 0.543
+  > Cycles per instruction (CPI): 1.84
+  > Total cycles: 369398283
+
+Run 2:
+  Issue Width: 1
+  Reorder Buffer Size: 2
+
+  > Instructions per cycle (IPC): 0.18
+  > Cycles per instruction (CPI): 5.54
+  > Total cycles: 1111708631
+
+Run 3:
+  Issue Width: 1
+  Reorder Buffer Size: 32
+
+  > Instructions per cycle (IPC): 0.543
+  > Cycles per instruction (CPI): 1.84
+  > Total cycles: 369383221
+
+Run 4:
+  Issue Width: 1
+  Reorder Buffer Size: 4
+
+  > Instructions per cycle (IPC): 0.275
+  > Cycles per instruction (CPI): 3.64
+  > Total cycles: 729398863
+
+Run 5:
+  Issue Width: 1
+  Reorder Buffer Size: 8
+
+  > Instructions per cycle (IPC): 0.504
+  > Cycles per instruction (CPI): 1.98
+  > Total cycles: 397758890
+
+Run 6:
+  Issue Width: 2
+  Reorder Buffer Size: 16
+
+  > Instructions per cycle (IPC): 0.91
+  > Cycles per instruction (CPI): 1.1
+  > Total cycles: 220430047
+
+Run 7:
+  Issue Width: 2
+  Reorder Buffer Size: 2
+
+  > Instructions per cycle (IPC): 0.18
+  > Cycles per instruction (CPI): 5.54
+  > Total cycles: 1111556048
+
+Run 8:
+  Issue Width: 2
+  Reorder Buffer Size: 32
+
+  > Instructions per cycle (IPC): 0.968
+  > Cycles per instruction (CPI): 1.03
+  > Total cycles: 207131794
+
+Run 9:
+  Issue Width: 2
+  Reorder Buffer Size: 4
+
+  > Instructions per cycle (IPC): 0.336
+  > Cycles per instruction (CPI): 2.98
+  > Total cycles: 597655922
+
+Run 10:
+  Issue Width: 2
+  Reorder Buffer Size: 8
+
+  > Instructions per cycle (IPC): 0.54
+  > Cycles per instruction (CPI): 1.85
+  > Total cycles: 371683562
+
+Run 11:
+  Issue Width: 4
+  Reorder Buffer Size: 16
+
+  > Instructions per cycle (IPC): 0.985
+  > Cycles per instruction (CPI): 1.02
+  > Total cycles: 203627537
+
+Run 12:
+  Issue Width: 4
+  Reorder Buffer Size: 2
+
+  > Instructions per cycle (IPC): 0.18
+  > Cycles per instruction (CPI): 5.54
+  > Total cycles: 1111554570
+
+Run 13:
+  Issue Width: 4
+  Reorder Buffer Size: 32
+
+  > Instructions per cycle (IPC): 1.25
+  > Cycles per instruction (CPI): 0.797
+  > Total cycles: 159958829
+
+Run 14:
+  Issue Width: 4
+  Reorder Buffer Size: 4
+
+  > Instructions per cycle (IPC): 0.341
+  > Cycles per instruction (CPI): 2.93
+  > Total cycles: 587531172
+
+Run 15:
+  Issue Width: 4
+  Reorder Buffer Size: 8
+
+  > Instructions per cycle (IPC): 0.615
+  > Cycles per instruction (CPI): 1.63
+  > Total cycles: 326224475
+
+Run 16:
+  Issue Width: 8
+  Reorder Buffer Size: 16
+
+  > Instructions per cycle (IPC): 1.05
+  > Cycles per instruction (CPI): 0.955
+  > Total cycles: 191536756
+
+Run 17:
+  Issue Width: 8
+  Reorder Buffer Size: 2
+
+  > Instructions per cycle (IPC): 0.18
+  > Cycles per instruction (CPI): 5.54
+  > Total cycles: 1111548030
+
+Run 18:
+  Issue Width: 8
+  Reorder Buffer Size: 32
+
+  > Instructions per cycle (IPC): 1.36
+  > Cycles per instruction (CPI): 0.734
+  > Total cycles: 147211531
+
+Run 19:
+  Issue Width: 8
+  Reorder Buffer Size: 4
+
+  > Instructions per cycle (IPC): 0.342
+  > Cycles per instruction (CPI): 2.93
+  > Total cycles: 587231894
+
+Run 20:
+  Issue Width: 8
+  Reorder Buffer Size: 8
+
+  > Instructions per cycle (IPC): 0.626
+  > Cycles per instruction (CPI): 1.6
+  > Total cycles: 320476508
+
