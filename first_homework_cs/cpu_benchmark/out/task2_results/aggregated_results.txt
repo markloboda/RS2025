@@ -1,0 +1,35 @@
+Run 1:
+  Issue Width: 4
+  Reorder Buffer Size: 32
+  Predictor: Local Branch Predictor (LocalBP)
+
+  > Instructions per cycle (IPC): 1.25
+  > Cycles per instruction (CPI): 0.797
+  > Branch Mispredicts: 143329
+
+Run 2:
+  Issue Width: 4
+  Reorder Buffer Size: 64
+  Predictor: Local Branch Predictor (LocalBP)
+
+  > Instructions per cycle (IPC): 1.28
+  > Cycles per instruction (CPI): 0.782
+  > Branch Mispredicts: 143419
+
+Run 3:
+  Issue Width: 4
+  Reorder Buffer Size: 32
+  Predictor: Multiperspective Perceptron TAGE Predictor (64KB)
+
+  > Instructions per cycle (IPC): 1.25
+  > Cycles per instruction (CPI): 0.802
+  > Branch Mispredicts: 3126
+
+Run 4:
+  Issue Width: 4
+  Reorder Buffer Size: 64
+  Predictor: Multiperspective Perceptron TAGE Predictor (64KB)
+
+  > Instructions per cycle (IPC): 1.25
+  > Cycles per instruction (CPI): 0.802
+  > Branch Mispredicts: 3194
