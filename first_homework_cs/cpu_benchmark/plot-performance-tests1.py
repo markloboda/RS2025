@@ -224,15 +224,15 @@ def plot_ipc_heatmap(
         ipc_matrix[i, j] = run.results.instructions_per_cycle
 
     # Create the heatmap.
-    plt.figure(figsize=(8, 6))
+    plt.figure(figsize=(8, 6), dpi=200)
     im = plt.imshow(ipc_matrix, aspect='auto', cmap='viridis', origin='lower')
     plt.colorbar(im, label="IPC (Instructions Per Cycle)")
 
     # Set tick marks and labels.
-    plt.xticks(ticks=np.arange(len(issue_widths)), labels=issue_widths)
-    plt.yticks(ticks=np.arange(len(rob_sizes)), labels=rob_sizes)
-    plt.xlabel("Issue Width")
-    plt.ylabel("ROB Size")
+    plt.xticks(ticks=np.arange(len(issue_widths)), labels=issue_widths, fontsize=14)
+    plt.yticks(ticks=np.arange(len(rob_sizes)), labels=rob_sizes, fontsize=14)
+    plt.xlabel("Issue Width", fontsize=12)
+    plt.ylabel("ROB Size", fontsize=12)
     plt.title("Heatmap of IPC across Issue Width and ROB Size")
 
     # Optionally, annotate each cell with its IPC value.
@@ -240,7 +240,7 @@ def plot_ipc_heatmap(
         for j in range(len(issue_widths)):
             value = ipc_matrix[i, j]
             if not np.isnan(value):
-                plt.text(j, i, f"{value:.2f}", ha='center', va='center', color='white')
+                plt.text(j, i, f"{value:.2f}", ha='center', va='center', color='white', fontsize=12)
 
     # Ensure the output directory exists.
     output_directory_path.mkdir(parents=True, exist_ok=True)
