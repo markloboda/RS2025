@@ -302,11 +302,11 @@ def plot_ipc_against_cache_size_for_program_version(
 
     figure.savefig(
         fname=output_directory_path.joinpath(
-            # f"ipc-against-cache_mat_mult{program_version}.svg"
-            f"ipc-against-cache_mat_mult{program_version}.png"
+            f"ipc-against-cache_mat_mult{program_version}.svg"
+            # f"ipc-against-cache_mat_mult{program_version}.png"
         ),
-        # format="svg",
-        format="png",
+        format="svg",
+        # format="png",
         # transparent=True,
         transparent=False,
         bbox_inches="tight"
@@ -415,11 +415,11 @@ def plot_total_cycles_against_cache_size_for_program_version(
 
     figure.savefig(
         fname=output_directory_path.joinpath(
-            # f"total-cycles-against-cache_mat_mult{program_version}.svg"
-            f"total-cycles-against-cache_mat_mult{program_version}.png"
+            f"total-cycles-against-cache_mat_mult{program_version}.svg"
+            # f"total-cycles-against-cache_mat_mult{program_version}.png"
         ),
-        # format="svg",
-        format="png",
+        format="svg",
+        # format="png",
         # transparent=True,
         transparent=False,
         bbox_inches="tight"
@@ -524,11 +524,11 @@ def plot_l1_read_miss_rate_against_l1_sizes(
 
     figure.savefig(
         fname=output_directory_path.joinpath(
-            # f"l1-read-miss-rate-against-l1-size_for-L2-{selected_l2_size}.svg"
-            f"l1-read-miss-rate-against-l1-size_for-L2-{selected_l2_size}.png"
+            f"l1-read-miss-rate-against-l1-size_for-L2-{selected_l2_size}.svg"
+            # f"l1-read-miss-rate-against-l1-size_for-L2-{selected_l2_size}.png"
         ),
-        # format="svg",
-        format="png",
+        format="svg",
+        # format="png",
         # transparent=True,
         transparent=False,
         bbox_inches="tight"
@@ -624,7 +624,7 @@ def plot_l1_write_miss_rate_against_l1_sizes(
     axes.yaxis.set_minor_locator(matplotlib.ticker.AutoMinorLocator(n="auto"))
 
     axes.set_autoscale_on(False)
-    axes.set_ylim(ymin=0, ymax=maximum_l1_miss_rate*1.1)
+    axes.set_ylim(ymin=0, ymax=max(maximum_l1_miss_rate*1.05, 0.0008))
     axes.set_xlim(
         xmin=0,
         xmax=len(sorted_l1_sizes)
@@ -632,11 +632,11 @@ def plot_l1_write_miss_rate_against_l1_sizes(
 
     figure.savefig(
         fname=output_directory_path.joinpath(
-            # f"l1-write-miss-rate-against-l1-size_for-L2-{selected_l2_size}.svg"
-            f"l1-write-miss-rate-against-l1-size_for-L2-{selected_l2_size}.png"
+            f"l1-write-miss-rate-against-l1-size_for-L2-{selected_l2_size}.svg"
+            # f"l1-write-miss-rate-against-l1-size_for-L2-{selected_l2_size}.png"
         ),
-        # format="svg",
-        format="png",
+        format="svg",
+        # format="png",
         # transparent=True,
         transparent=False,
         bbox_inches="tight"
@@ -714,7 +714,7 @@ def plot_l2_miss_rate_against_l2_sizes(
 
     axes.legend(loc="lower right", reverse=True, title="Program version")
     axes.set_title(
-        f"L2 cache write miss rate (with L1 size = {selected_l1_size})",
+        f"L2 cache miss rate (with L1 size = {selected_l1_size})",
         pad=14
     )
     axes.set_xlabel("L2 cache size")
@@ -733,7 +733,7 @@ def plot_l2_miss_rate_against_l2_sizes(
     axes.yaxis.set_minor_locator(matplotlib.ticker.AutoMinorLocator(n="auto"))
 
     axes.set_autoscale_on(False)
-    axes.set_ylim(ymin=0, ymax=maximum_l2_miss_rate*1.1)
+    axes.set_ylim(ymin=0, ymax=max(maximum_l2_miss_rate*1.05, 0.06))
     axes.set_xlim(
         xmin=0,
         xmax=len(sorted_l1_sizes)
@@ -741,11 +741,11 @@ def plot_l2_miss_rate_against_l2_sizes(
 
     figure.savefig(
         fname=output_directory_path.joinpath(
-            # f"l2-miss-rate-against-l2-size_for-L1-{selected_l1_size}.svg"
-            f"l2-miss-rate-against-l2-size_for-L1-{selected_l1_size}.png"
+            f"l2-miss-rate-against-l2-size_for-L1-{selected_l1_size}.svg"
+            # f"l2-miss-rate-against-l2-size_for-L1-{selected_l1_size}.png"
         ),
-        # format="svg",
-        format="png",
+        format="svg",
+        # format="png",
         # transparent=True,
         transparent=False,
         bbox_inches="tight"
@@ -859,12 +859,6 @@ def main():
             selected_l1_size=l1_size,
             output_directory_path=timestamped_output_directory_path
         )
-
-    # TODO bar (stairs) plots:
-    # - ipc against l1-l2 cache size combinations (for all thre impls) [DONE]
-    # - cycles against l1-l2 cache size combinations (for all thre impls) [DONE]
-    # - l1 miss rate against l1 cache sizes (multi stairs across impls) [DONE]
-    # - l2 miss rate against l2 cache sizes (multi stairs across impls)
     
     print("DONE")
     
