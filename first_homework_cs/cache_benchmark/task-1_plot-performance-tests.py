@@ -242,6 +242,7 @@ def plot_ipc_against_cache_size_for_program_version(
 
     maximum_ipc_value: float = 0
 
+    bar_width: float = 0.25
 
     for index, l2_size in enumerate(sorted_l2_sizes):
         data_for_given_l2_size: Dict[BinaryUnitSize, float] = ipc_per_cache_sizes[l2_size]
@@ -257,17 +258,18 @@ def plot_ipc_against_cache_size_for_program_version(
 
         x_axis_offset: float
         if index == 0:
-            x_axis_offset = -0.07
+            x_axis_offset = -bar_width / 2
         elif index == 1:
-            x_axis_offset = 0.07
+            x_axis_offset = bar_width / 2
         else:
             raise ValueError()
 
-        axes.stem(
+        axes.bar(
             [x + x_axis_offset for x in l1_cache_size_x_axis],
             ipc_values_with_ascending_l1_size,
             label=l2_size.full_string,
-            linefmt=f"C{index}-"
+            facecolor=f"C{index}",
+            width=bar_width
         )
 
 
@@ -276,9 +278,10 @@ def plot_ipc_against_cache_size_for_program_version(
 
     axes.legend(loc="upper left", reverse=True, title="L2 cache size")
     axes.set_title(
-        f"Instructions per cycle (IPC) for mat_mult{program_version} across both L2 cache sizes",
-        pad=14
+        f"Instructions per cycle across L2 cache sizes (mat_mult{program_version})",
+        pad=14,
     )
+
     axes.set_xlabel("L1 data cache size")
     axes.set_ylabel("Instructions per cycle (IPC)")
 
@@ -309,7 +312,7 @@ def plot_ipc_against_cache_size_for_program_version(
         # format="png",
         # transparent=True,
         transparent=False,
-        bbox_inches="tight"
+        # bbox_inches="tight"
     )
 
 
@@ -359,6 +362,7 @@ def plot_total_cycles_against_cache_size_for_program_version(
 
     maximum_total_cycles: int = 0
 
+    bar_width: float = 0.25
 
     for index, l2_size in enumerate(sorted_l2_sizes):
         data_for_given_l2_size: Dict[BinaryUnitSize, int] = total_cycles_per_cache_sizes[l2_size]
@@ -373,25 +377,27 @@ def plot_total_cycles_against_cache_size_for_program_version(
 
         x_axis_offset: float
         if index == 0:
-            x_axis_offset = -0.07
+            x_axis_offset = -bar_width / 2
         elif index == 1:
-            x_axis_offset = 0.07
+            x_axis_offset = bar_width / 2
         else:
             raise ValueError()
 
-        axes.stem(
+        axes.bar(
             [x + x_axis_offset for x in l1_cache_size_x_axis],
             total_cycles_for_given_l2_size_with_ascending_l1_size,
             label=l2_size.full_string,
-            linefmt=f"C{index}-"
+            facecolor=f"C{index}",
+            width=bar_width
         )
 
 
     axes.legend(loc="upper right", reverse=True, title="L2 cache size")
     axes.set_title(
-        f"Total cycles executed for mat_mult{program_version}",
+        f"Total cycles (mat_mult{program_version})",
         pad=14
     )
+
     axes.set_xlabel("L1 data cache size")
     axes.set_ylabel("Total cycles")
 
@@ -467,6 +473,8 @@ def plot_l1_read_miss_rate_against_l1_sizes(
 
     maximum_l1_miss_rate: float = 0.0
 
+    bar_width: float = 0.25
+    
     for program_version in [1, 2, 3]:
         l1_read_miss_rate_for_program: List[float] = []
         for l1_size in sorted_l1_sizes:
@@ -478,28 +486,30 @@ def plot_l1_read_miss_rate_against_l1_sizes(
 
         x_axis_offset: float
         if program_version == 1:
-            x_axis_offset = -0.09
+            x_axis_offset = -bar_width
         elif program_version == 2:
             x_axis_offset = 0
         elif program_version == 3:
-            x_axis_offset = 0.09
+            x_axis_offset = bar_width
         else:
             raise ValueError()
         
 
-        axes.stem(
+        axes.bar(
             [x + x_axis_offset for x in l1_cache_size_x_axis],
             l1_read_miss_rate_for_program,
             label=f"mat_mult{program_version}",
-            linefmt=f"C{program_version - 1}-"
+            facecolor=f"C{program_version - 1}",
+            width=bar_width
         )
     
 
     axes.legend(loc="upper right", reverse=True, title="Program version")
     axes.set_title(
-        f"L1 data cache read miss rate (with L2 size = {selected_l2_size})",
+        f"L1 data cache read miss rate (L2 size = {selected_l2_size})",
         pad=14
     )
+
     axes.set_xlabel("L1 data cache size")
     axes.set_ylabel("L1 read miss rate")
 
@@ -574,6 +584,7 @@ def plot_l1_write_miss_rate_against_l1_sizes(
 
 
     maximum_l1_miss_rate: float = 0.0
+    bar_width: float = 0.2
 
     for program_version in [1, 2, 3]:
         l1_read_miss_rate_for_program: List[float] = []
@@ -586,28 +597,30 @@ def plot_l1_write_miss_rate_against_l1_sizes(
 
         x_axis_offset: float
         if program_version == 1:
-            x_axis_offset = -0.09
+            x_axis_offset = -bar_width
         elif program_version == 2:
             x_axis_offset = 0
         elif program_version == 3:
-            x_axis_offset = 0.09
+            x_axis_offset = bar_width
         else:
             raise ValueError()
         
 
-        axes.stem(
+        axes.bar(
             [x + x_axis_offset for x in l1_cache_size_x_axis],
             l1_read_miss_rate_for_program,
             label=f"mat_mult{program_version}",
-            linefmt=f"C{program_version - 1}-"
+            facecolor=f"C{program_version - 1}",
+            width=bar_width
         )
     
 
     axes.legend(loc="upper right", reverse=True, title="Program version")
     axes.set_title(
-        f"L1 data cache write miss rate (with L2 size = {selected_l2_size})",
+        f"L1 data cache write miss rate (L2 size = {selected_l2_size})",
         pad=14
     )
+
     axes.set_xlabel("L1 data cache size")
     axes.set_ylabel("L1 write miss rate")
 
@@ -684,6 +697,8 @@ def plot_l2_miss_rate_against_l2_sizes(
 
     maximum_l2_miss_rate: float = 0.0
 
+    bar_width: float = 0.2
+
     for program_version in [1, 2, 3]:
         l2_read_miss_rate_for_program: List[float] = []
         for l2_size in sorted_l1_sizes:
@@ -695,28 +710,30 @@ def plot_l2_miss_rate_against_l2_sizes(
 
         x_axis_offset: float
         if program_version == 1:
-            x_axis_offset = -0.09
+            x_axis_offset = -bar_width
         elif program_version == 2:
             x_axis_offset = 0
         elif program_version == 3:
-            x_axis_offset = 0.09
+            x_axis_offset = bar_width
         else:
             raise ValueError()
         
 
-        axes.stem(
+        axes.bar(
             [x + x_axis_offset for x in l1_cache_size_x_axis],
             l2_read_miss_rate_for_program,
             label=f"mat_mult{program_version}",
-            linefmt=f"C{program_version - 1}-"
+            facecolor=f"C{program_version - 1}",
+            width=bar_width
         )
     
 
     axes.legend(loc="lower right", reverse=True, title="Program version")
     axes.set_title(
-        f"L2 cache miss rate (with L1 size = {selected_l1_size})",
+        f"L2 cache miss rate (L1 size = {selected_l1_size})",
         pad=14
     )
+
     axes.set_xlabel("L2 cache size")
     axes.set_ylabel("L2 miss rate")
 
@@ -825,7 +842,7 @@ def main():
     print(f"Found {len(aggregated_results)} results in provided directory.")
     print()
 
-    plt.style.use("ggplot")
+    plt.style.use("seaborn-v0_8-deep")
 
     for program_version in [1, 2, 3]:
         plot_ipc_against_cache_size_for_program_version(

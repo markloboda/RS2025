@@ -4,10 +4,8 @@ import os
 from pathlib import Path
 from dataclasses import dataclass
 import re
-from typing import Callable, Dict, List, Optional, Self, Tuple, Union
-import matplotlib
+from typing import Dict, List, Optional, Self, Tuple
 import matplotlib.pyplot as plt
-import matplotlib.ticker
 from matplotlib.figure import Figure
 from matplotlib.axes import Axes
 
@@ -201,7 +199,7 @@ def plot_ipc_against_associativity_heatmap_for_program(
     output_directory_path: Path
 ):
     figure: Figure = plt.figure(
-        num=f"IPC across combinations of L1 and L2 cache associativity (for mat_mult{selected_program_version})",
+        num=f"IPC across combinations of L1 and L2 cache associativity (mat_mult{selected_program_version})",
         layout="constrained"
     )
 
@@ -222,7 +220,7 @@ def plot_ipc_against_associativity_heatmap_for_program(
         
         assert l2_associativity not in values_per_l2_assoc_per_l1_assoc[l1_associativity]
 
-        values_per_l2_assoc_per_l1_assoc[l1_associativity][l2_associativity] = run.results.instructions_per_cycle
+        values_per_l2_assoc_per_l1_assoc[l1_associativity][l2_associativity] = round(run.results.instructions_per_cycle, 4)
     
 
     # These are the actual values we'll plot (a matrix for `imshow`).
@@ -246,7 +244,14 @@ def plot_ipc_against_associativity_heatmap_for_program(
         for (_, l1_list) in values_sorted_per_ascending_l1_then_l2_assoc
     ]
 
-    axes.imshow(reduced_values)
+    axes.imshow(
+        reduced_values,
+        cmap="hot",
+        interpolation="nearest",
+        aspect="equal",
+        origin="upper",
+        resample=False,
+    )
 
 
     axes.set_xticks(
@@ -258,29 +263,36 @@ def plot_ipc_against_associativity_heatmap_for_program(
         labels=[str(associativity) for associativity in CACHE_ASSOCIATIVITIES]
     )
 
+    axes.grid(visible=False)
+
 
     for l2_associativity_index, l2_associativity in enumerate(CACHE_ASSOCIATIVITIES):
         for l1_associativity_index, l1_associativity in enumerate(CACHE_ASSOCIATIVITIES):
             value: float = reduced_values[l1_associativity_index][l2_associativity_index]
 
             axes.text(
-                l1_associativity_index - 0.02,
-                l2_associativity_index - 0.02,
+                l2_associativity_index,
+                l1_associativity_index,
                 f"{value:.4f}",
                 fontsize="xx-small",
                 fontweight="medium",
-                horizontalalignment="right",
-                verticalalignment="bottom",
-                color="white"
+                horizontalalignment="center",
+                verticalalignment="center",
+                color="black",
+                bbox={
+                    "boxstyle": "square,pad=0.26",
+                    "alpha": 0.9,
+                    "facecolor": "white",
+                }
             )
 
     axes.set_title(
-        f"IPC across L1/L2 cache associativity $\\it{{(for~mat\\_mult{selected_program_version})}}$",
+        f"IPC across L1/L2 cache associativity $\\it{{(mat\\_mult{selected_program_version})}}$",
         pad=14
     )
 
-    axes.set_xlabel("L1 cache associativity")
-    axes.set_ylabel("L2 cache associativity")
+    axes.set_xlabel("L2 cache associativity")
+    axes.set_ylabel("L1 cache associativity")
 
     figure.savefig(
         fname=output_directory_path.joinpath(
@@ -303,7 +315,7 @@ def plot_l1_read_miss_rate_against_associativity_heatmap_for_program(
     output_directory_path: Path
 ):
     figure: Figure = plt.figure(
-        num=f"L1 read miss rate across combinations of L1 and L2 cache associativity (for mat_mult{selected_program_version})",
+        num=f"L1 read miss rate across combinations of L1 and L2 cache associativity (mat_mult{selected_program_version})",
         layout="constrained"
     )
 
@@ -324,7 +336,7 @@ def plot_l1_read_miss_rate_against_associativity_heatmap_for_program(
         
         assert l2_associativity not in values_per_l2_assoc_per_l1_assoc[l1_associativity]
 
-        values_per_l2_assoc_per_l1_assoc[l1_associativity][l2_associativity] = run.results.l1_cache_read_miss_rate()
+        values_per_l2_assoc_per_l1_assoc[l1_associativity][l2_associativity] = round(run.results.l1_cache_read_miss_rate(), 4)
     
 
     # These are the actual values we'll plot (a matrix for `imshow`).
@@ -348,7 +360,14 @@ def plot_l1_read_miss_rate_against_associativity_heatmap_for_program(
         for (_, l1_list) in values_sorted_per_ascending_l1_then_l2_assoc
     ]
 
-    axes.imshow(reduced_values)
+    axes.imshow(
+        reduced_values,
+        cmap="hot",
+        interpolation="nearest",
+        aspect="equal",
+        origin="upper",
+        resample=False,
+    )
 
 
     axes.set_xticks(
@@ -360,29 +379,36 @@ def plot_l1_read_miss_rate_against_associativity_heatmap_for_program(
         labels=[str(associativity) for associativity in CACHE_ASSOCIATIVITIES]
     )
 
+    axes.grid(visible=False)
+
 
     for l2_associativity_index, l2_associativity in enumerate(CACHE_ASSOCIATIVITIES):
         for l1_associativity_index, l1_associativity in enumerate(CACHE_ASSOCIATIVITIES):
             value: float = reduced_values[l1_associativity_index][l2_associativity_index]
 
             axes.text(
-                l1_associativity_index - 0.02,
-                l2_associativity_index - 0.02,
+                l2_associativity_index,
+                l1_associativity_index,
                 f"{value:.4f}",
                 fontsize="xx-small",
                 fontweight="medium",
-                horizontalalignment="right",
-                verticalalignment="bottom",
-                color="white"
+                horizontalalignment="center",
+                verticalalignment="center",
+                color="black",
+                bbox={
+                    "boxstyle": "square,pad=0.26",
+                    "alpha": 0.9,
+                    "facecolor": "white",
+                }
             )
 
     axes.set_title(
-        f"L1 read miss rate across L1/L2 cache associativity $\\it{{(for~mat\\_mult{selected_program_version})}}$",
+        f"L1 read miss rate across cache associativity $\\it{{(mat\\_mult{selected_program_version})}}$",
         pad=14
     )
 
-    axes.set_xlabel("L1 cache associativity")
-    axes.set_ylabel("L2 cache associativity")
+    axes.set_xlabel("L2 cache associativity")
+    axes.set_ylabel("L1 cache associativity")
 
     figure.savefig(
         fname=output_directory_path.joinpath(
@@ -404,7 +430,7 @@ def plot_l1_write_miss_rate_against_associativity_heatmap_for_program(
     output_directory_path: Path
 ):
     figure: Figure = plt.figure(
-        num=f"L1 write miss rate across combinations of L1 and L2 cache associativity (for mat_mult{selected_program_version})",
+        num=f"L1 write miss rate across combinations of L1 and L2 cache associativity (mat_mult{selected_program_version})",
         layout="constrained"
     )
 
@@ -425,7 +451,7 @@ def plot_l1_write_miss_rate_against_associativity_heatmap_for_program(
         
         assert l2_associativity not in values_per_l2_assoc_per_l1_assoc[l1_associativity]
 
-        values_per_l2_assoc_per_l1_assoc[l1_associativity][l2_associativity] = run.results.l1_cache_write_miss_rate()
+        values_per_l2_assoc_per_l1_assoc[l1_associativity][l2_associativity] = round(run.results.l1_cache_write_miss_rate(), 4)
     
 
     # These are the actual values we'll plot (a matrix for `imshow`).
@@ -449,7 +475,15 @@ def plot_l1_write_miss_rate_against_associativity_heatmap_for_program(
         for (_, l1_list) in values_sorted_per_ascending_l1_then_l2_assoc
     ]
 
-    axes.imshow(reduced_values)
+
+    axes.imshow(
+        reduced_values,
+        cmap="hot",
+        interpolation="nearest",
+        aspect="equal",
+        origin="upper",
+        resample=False,
+    )
 
 
     axes.set_xticks(
@@ -461,29 +495,36 @@ def plot_l1_write_miss_rate_against_associativity_heatmap_for_program(
         labels=[str(associativity) for associativity in CACHE_ASSOCIATIVITIES]
     )
 
+    axes.grid(visible=False)
+
 
     for l2_associativity_index, l2_associativity in enumerate(CACHE_ASSOCIATIVITIES):
         for l1_associativity_index, l1_associativity in enumerate(CACHE_ASSOCIATIVITIES):
             value: float = reduced_values[l1_associativity_index][l2_associativity_index]
 
             axes.text(
-                l1_associativity_index - 0.02,
-                l2_associativity_index - 0.02,
+                l2_associativity_index,
+                l1_associativity_index,
                 f"{value:.4f}",
                 fontsize="xx-small",
                 fontweight="medium",
-                horizontalalignment="right",
-                verticalalignment="bottom",
-                color="white"
+                horizontalalignment="center",
+                verticalalignment="center",
+                color="black",
+                bbox={
+                    "boxstyle": "square,pad=0.26",
+                    "alpha": 0.9,
+                    "facecolor": "white",
+                }
             )
 
     axes.set_title(
-        f"L1 write miss rate across L1/L2 cache associativity $\\it{{(for~mat\\_mult{selected_program_version})}}$",
+        f"L1 write miss rate across cache associativity $\\it{{(mat\\_mult{selected_program_version})}}$",
         pad=14
     )
 
-    axes.set_xlabel("L1 cache associativity")
-    axes.set_ylabel("L2 cache associativity")
+    axes.set_xlabel("L2 cache associativity")
+    axes.set_ylabel("L1 cache associativity")
 
     figure.savefig(
         fname=output_directory_path.joinpath(
@@ -504,7 +545,7 @@ def plot_l2_miss_rate_against_associativity_heatmap_for_program(
     output_directory_path: Path
 ):
     figure: Figure = plt.figure(
-        num=f"L2 miss rate across combinations of L1 and L2 cache associativity (for mat_mult{selected_program_version})",
+        num=f"L2 miss rate across combinations of L1 and L2 cache associativity (mat_mult{selected_program_version})",
         layout="constrained"
     )
 
@@ -525,7 +566,7 @@ def plot_l2_miss_rate_against_associativity_heatmap_for_program(
         
         assert l2_associativity not in values_per_l2_assoc_per_l1_assoc[l1_associativity]
 
-        values_per_l2_assoc_per_l1_assoc[l1_associativity][l2_associativity] = run.results.l2_cache_miss_rate()
+        values_per_l2_assoc_per_l1_assoc[l1_associativity][l2_associativity] = round(run.results.l2_cache_miss_rate(), 4)
     
 
     # These are the actual values we'll plot (a matrix for `imshow`).
@@ -549,7 +590,14 @@ def plot_l2_miss_rate_against_associativity_heatmap_for_program(
         for (_, l1_list) in values_sorted_per_ascending_l1_then_l2_assoc
     ]
 
-    axes.imshow(reduced_values)
+    axes.imshow(
+        reduced_values,
+        cmap="hot",
+        interpolation="nearest",
+        aspect="equal",
+        origin="upper",
+        resample=False,
+    )
 
 
     axes.set_xticks(
@@ -561,29 +609,36 @@ def plot_l2_miss_rate_against_associativity_heatmap_for_program(
         labels=[str(associativity) for associativity in CACHE_ASSOCIATIVITIES]
     )
 
+    axes.grid(visible=False)
+
 
     for l2_associativity_index, l2_associativity in enumerate(CACHE_ASSOCIATIVITIES):
         for l1_associativity_index, l1_associativity in enumerate(CACHE_ASSOCIATIVITIES):
             value: float = reduced_values[l1_associativity_index][l2_associativity_index]
 
             axes.text(
-                l1_associativity_index - 0.02,
-                l2_associativity_index - 0.02,
+                l2_associativity_index,
+                l1_associativity_index,
                 f"{value:.4f}",
                 fontsize="xx-small",
                 fontweight="medium",
-                horizontalalignment="right",
-                verticalalignment="bottom",
-                color="white"
+                horizontalalignment="center",
+                verticalalignment="center",
+                color="black",
+                bbox={
+                    "boxstyle": "square,pad=0.26",
+                    "alpha": 0.9,
+                    "facecolor": "white",
+                }
             )
 
     axes.set_title(
-        f"L2 miss rate across L1/L2 cache associativity $\\it{{(for~mat\\_mult{selected_program_version})}}$",
+        f"L2 miss rate across cache associativity $\\it{{(mat\\_mult{selected_program_version})}}$",
         pad=14
     )
 
-    axes.set_xlabel("L1 cache associativity")
-    axes.set_ylabel("L2 cache associativity")
+    axes.set_xlabel("L2 cache associativity")
+    axes.set_ylabel("L1 cache associativity")
 
     figure.savefig(
         fname=output_directory_path.joinpath(
@@ -650,7 +705,14 @@ def plot_total_cycles_against_associativity_heatmap_for_program(
         for (_, l1_list) in values_sorted_per_ascending_l1_then_l2_assoc
     ]
 
-    axes.imshow(reduced_values)
+    axes.imshow(
+        reduced_values,
+        cmap="hot",
+        interpolation="nearest",
+        aspect="equal",
+        origin="upper",
+        resample=False,
+    )
 
 
     axes.set_xticks(
@@ -662,29 +724,36 @@ def plot_total_cycles_against_associativity_heatmap_for_program(
         labels=[str(associativity) for associativity in CACHE_ASSOCIATIVITIES]
     )
 
+    axes.grid(visible=False)
+
 
     for l2_associativity_index, l2_associativity in enumerate(CACHE_ASSOCIATIVITIES):
         for l1_associativity_index, l1_associativity in enumerate(CACHE_ASSOCIATIVITIES):
             value: int = reduced_values[l1_associativity_index][l2_associativity_index]
 
             axes.text(
-                l1_associativity_index - 0.02,
-                l2_associativity_index - 0.02,
-                f"{value:.4f}",
+                l2_associativity_index,
+                l1_associativity_index,
+                f"{(value / 10**6):.2f} M",
                 fontsize="xx-small",
                 fontweight="medium",
-                horizontalalignment="right",
-                verticalalignment="bottom",
-                color="white"
+                horizontalalignment="center",
+                verticalalignment="center",
+                color="black",
+                bbox={
+                    "boxstyle": "square,pad=0.26",
+                    "alpha": 0.9,
+                    "facecolor": "white",
+                }
             )
 
     axes.set_title(
-        f"Total cyclees across L1/L2 cache associativity $\\it{{(for~mat\\_mult{selected_program_version})}}$",
+        f"Total cycles across cache associativity $\\it{{(mat\\_mult{selected_program_version})}}$",
         pad=14
     )
 
-    axes.set_xlabel("L1 cache associativity")
-    axes.set_ylabel("L2 cache associativity")
+    axes.set_xlabel("L2 cache associativity")
+    axes.set_ylabel("L1 cache associativity")
 
     figure.savefig(
         fname=output_directory_path.joinpath(
