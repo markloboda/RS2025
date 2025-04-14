@@ -1,0 +1,11 @@
+board.processor.cores0.core.CPI
+board.cache_hierarchy.ruby_system.L1Cache_Controller.Inv::total
+board.cache_hierarchy.ruby_system.L1Cache_Controller.I.Load::total
+board.cache_hierarchy.ruby_system.L1Cache_Controller.S.Load::total
+board.cache_hierarchy.ruby_system.L1Cache_Controller.E.Load::total
+board.cache_hierarchy.ruby_system.L1Cache_Controller.M.Load::total
+board.cache_hierarchy.ruby_system.L2Cache_Controller.L1_GETS
+board.cache_hierarchy.ruby_system.L2Cache_Controller.L1_GETX
+board.cache_hierarchy.ruby_system.network.msg_count.Request_Control
+board.cache_hierarchy.ruby_system.network.msg_count.Response_Data
+board.cache_hierarchy.ruby_system.network.msg_count.Writeback_Data
