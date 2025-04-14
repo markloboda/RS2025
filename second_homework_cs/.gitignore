@@ -19,5 +19,7 @@ jacobi.c
 *.o
 moesi_two_level.py
 04-GEM5-RCC/utils/
-*.sh
 workload/lu_decomp/
+
+__pycache__/
+*.log
