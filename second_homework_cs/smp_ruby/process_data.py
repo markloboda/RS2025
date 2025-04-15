@@ -4,6 +4,7 @@ import argparse
 from collections import defaultdict
 
 BASE_KEYS = [
+    "simSeconds",
     "board.cache_hierarchy.ruby_system.L1Cache_Controller.Inv::total",
     "board.cache_hierarchy.ruby_system.L1Cache_Controller.I.Load::total",
     "board.cache_hierarchy.ruby_system.L1Cache_Controller.S.Load::total",

@@ -1,59 +1,3 @@
-[out_pi_falsesharing.bin_2]
-board.cache_hierarchy.ruby_system.L1Cache_Controller.E.Load::total: 15471.0
-board.cache_hierarchy.ruby_system.L1Cache_Controller.I.Load::total: 8.0
-board.cache_hierarchy.ruby_system.L1Cache_Controller.Inv::total: 300.0
-board.cache_hierarchy.ruby_system.L1Cache_Controller.M.Load::total: 10537247.0
-board.cache_hierarchy.ruby_system.L1Cache_Controller.S.Load::total: 3010110.0
-board.cache_hierarchy.ruby_system.L2Cache_Controller.L1_GETS: 1738.0
-board.cache_hierarchy.ruby_system.L2Cache_Controller.L1_GETX: 1000841.0
-board.cache_hierarchy.ruby_system.network.msg_count.Request_Control: 2000810.0
-board.cache_hierarchy.ruby_system.network.msg_count.Response_Data: 2019720.0
-board.cache_hierarchy.ruby_system.network.msg_count.Writeback_Data: 1370.0
-board.processor.cores0.core.cpi: 2.277441
-board.processor.cores1.core.cpi: 2.235428
-board.processor.cores10.core.cpi: N/A
-board.processor.cores11.core.cpi: N/A
-board.processor.cores12.core.cpi: N/A
-board.processor.cores13.core.cpi: N/A
-board.processor.cores14.core.cpi: N/A
-board.processor.cores15.core.cpi: N/A
-board.processor.cores2.core.cpi: N/A
-board.processor.cores3.core.cpi: N/A
-board.processor.cores4.core.cpi: N/A
-board.processor.cores5.core.cpi: N/A
-board.processor.cores6.core.cpi: N/A
-board.processor.cores7.core.cpi: N/A
-board.processor.cores8.core.cpi: N/A
-board.processor.cores9.core.cpi: N/A
-
-[out_pi_falsesharing.bin_8]
-board.cache_hierarchy.ruby_system.L1Cache_Controller.E.Load::total: 15877.0
-board.cache_hierarchy.ruby_system.L1Cache_Controller.I.Load::total: 750001.0
-board.cache_hierarchy.ruby_system.L1Cache_Controller.Inv::total: 750534.0
-board.cache_hierarchy.ruby_system.L1Cache_Controller.M.Load::total: 9539021.0
-board.cache_hierarchy.ruby_system.L1Cache_Controller.S.Load::total: 3080401.0
-board.cache_hierarchy.ruby_system.L2Cache_Controller.L1_GETS: 2064931.0
-board.cache_hierarchy.ruby_system.L2Cache_Controller.L1_GETX: 1751146.0
-board.cache_hierarchy.ruby_system.network.msg_count.Request_Control: 3501582.0
-board.cache_hierarchy.ruby_system.network.msg_count.Response_Data: 3525362.0
-board.cache_hierarchy.ruby_system.network.msg_count.Writeback_Data: 1502.0
-board.processor.cores0.core.cpi: 3.18898
-board.processor.cores1.core.cpi: 3.050165
-board.processor.cores10.core.cpi: N/A
-board.processor.cores11.core.cpi: N/A
-board.processor.cores12.core.cpi: N/A
-board.processor.cores13.core.cpi: N/A
-board.processor.cores14.core.cpi: N/A
-board.processor.cores15.core.cpi: N/A
-board.processor.cores2.core.cpi: 3.048094
-board.processor.cores3.core.cpi: 3.04655
-board.processor.cores4.core.cpi: 3.046007
-board.processor.cores5.core.cpi: 3.046187
-board.processor.cores6.core.cpi: 3.046561
-board.processor.cores7.core.cpi: 3.047202
-board.processor.cores8.core.cpi: N/A
-board.processor.cores9.core.cpi: N/A
-
 [out_pi_falsesharing.bin_16]
 board.cache_hierarchy.ruby_system.L1Cache_Controller.E.Load::total: 16426.0
 board.cache_hierarchy.ruby_system.L1Cache_Controller.I.Load::total: 593752.0
@@ -81,34 +25,36 @@ board.processor.cores6.core.cpi: 3.334909
 board.processor.cores7.core.cpi: 3.428166
 board.processor.cores8.core.cpi: 3.296898
 board.processor.cores9.core.cpi: 3.408122
+simSeconds: 0.002558
 
-[out_pi_optimized.bin_4]
-board.cache_hierarchy.ruby_system.L1Cache_Controller.E.Load::total: 15612.0
-board.cache_hierarchy.ruby_system.L1Cache_Controller.I.Load::total: 23.0
-board.cache_hierarchy.ruby_system.L1Cache_Controller.Inv::total: 403.0
-board.cache_hierarchy.ruby_system.L1Cache_Controller.M.Load::total: 10036931.0
-board.cache_hierarchy.ruby_system.L1Cache_Controller.S.Load::total: 3029904.0
-board.cache_hierarchy.ruby_system.L2Cache_Controller.L1_GETS: 2030.0
-board.cache_hierarchy.ruby_system.L2Cache_Controller.L1_GETX: 1037.0
-board.cache_hierarchy.ruby_system.network.msg_count.Request_Control: 1130.0
-board.cache_hierarchy.ruby_system.network.msg_count.Response_Data: 21816.0
-board.cache_hierarchy.ruby_system.network.msg_count.Writeback_Data: 1486.0
-board.processor.cores0.core.cpi: 2.256581
-board.processor.cores1.core.cpi: 2.171261
+[out_pi_falsesharing.bin_2]
+board.cache_hierarchy.ruby_system.L1Cache_Controller.E.Load::total: 15471.0
+board.cache_hierarchy.ruby_system.L1Cache_Controller.I.Load::total: 8.0
+board.cache_hierarchy.ruby_system.L1Cache_Controller.Inv::total: 300.0
+board.cache_hierarchy.ruby_system.L1Cache_Controller.M.Load::total: 10537247.0
+board.cache_hierarchy.ruby_system.L1Cache_Controller.S.Load::total: 3010110.0
+board.cache_hierarchy.ruby_system.L2Cache_Controller.L1_GETS: 1738.0
+board.cache_hierarchy.ruby_system.L2Cache_Controller.L1_GETX: 1000841.0
+board.cache_hierarchy.ruby_system.network.msg_count.Request_Control: 2000810.0
+board.cache_hierarchy.ruby_system.network.msg_count.Response_Data: 2019720.0
+board.cache_hierarchy.ruby_system.network.msg_count.Writeback_Data: 1370.0
+board.processor.cores0.core.cpi: 2.277441
+board.processor.cores1.core.cpi: 2.235428
 board.processor.cores10.core.cpi: N/A
 board.processor.cores11.core.cpi: N/A
 board.processor.cores12.core.cpi: N/A
 board.processor.cores13.core.cpi: N/A
 board.processor.cores14.core.cpi: N/A
 board.processor.cores15.core.cpi: N/A
-board.processor.cores2.core.cpi: 2.170275
-board.processor.cores3.core.cpi: 2.169415
+board.processor.cores2.core.cpi: N/A
+board.processor.cores3.core.cpi: N/A
 board.processor.cores4.core.cpi: N/A
 board.processor.cores5.core.cpi: N/A
 board.processor.cores6.core.cpi: N/A
 board.processor.cores7.core.cpi: N/A
 board.processor.cores8.core.cpi: N/A
 board.processor.cores9.core.cpi: N/A
+simSeconds: 0.011508
 
 [out_pi_falsesharing.bin_4]
 board.cache_hierarchy.ruby_system.L1Cache_Controller.E.Load::total: 15590.0
@@ -137,6 +83,36 @@ board.processor.cores6.core.cpi: N/A
 board.processor.cores7.core.cpi: N/A
 board.processor.cores8.core.cpi: N/A
 board.processor.cores9.core.cpi: N/A
+simSeconds: 0.007969
+
+[out_pi_falsesharing.bin_8]
+board.cache_hierarchy.ruby_system.L1Cache_Controller.E.Load::total: 15877.0
+board.cache_hierarchy.ruby_system.L1Cache_Controller.I.Load::total: 750001.0
+board.cache_hierarchy.ruby_system.L1Cache_Controller.Inv::total: 750534.0
+board.cache_hierarchy.ruby_system.L1Cache_Controller.M.Load::total: 9539021.0
+board.cache_hierarchy.ruby_system.L1Cache_Controller.S.Load::total: 3080401.0
+board.cache_hierarchy.ruby_system.L2Cache_Controller.L1_GETS: 2064931.0
+board.cache_hierarchy.ruby_system.L2Cache_Controller.L1_GETX: 1751146.0
+board.cache_hierarchy.ruby_system.network.msg_count.Request_Control: 3501582.0
+board.cache_hierarchy.ruby_system.network.msg_count.Response_Data: 3525362.0
+board.cache_hierarchy.ruby_system.network.msg_count.Writeback_Data: 1502.0
+board.processor.cores0.core.cpi: 3.18898
+board.processor.cores1.core.cpi: 3.050165
+board.processor.cores10.core.cpi: N/A
+board.processor.cores11.core.cpi: N/A
+board.processor.cores12.core.cpi: N/A
+board.processor.cores13.core.cpi: N/A
+board.processor.cores14.core.cpi: N/A
+board.processor.cores15.core.cpi: N/A
+board.processor.cores2.core.cpi: 3.048094
+board.processor.cores3.core.cpi: 3.04655
+board.processor.cores4.core.cpi: 3.046007
+board.processor.cores5.core.cpi: 3.046187
+board.processor.cores6.core.cpi: 3.046561
+board.processor.cores7.core.cpi: 3.047202
+board.processor.cores8.core.cpi: N/A
+board.processor.cores9.core.cpi: N/A
+simSeconds: 0.004168
 
 [out_pi_optimized.bin_16]
 board.cache_hierarchy.ruby_system.L1Cache_Controller.E.Load::total: 16651.0
@@ -165,6 +141,7 @@ board.processor.cores6.core.cpi: 2.181461
 board.processor.cores7.core.cpi: 2.181347
 board.processor.cores8.core.cpi: 2.180795
 board.processor.cores9.core.cpi: 2.180394
+simSeconds: 0.001737
 
 [out_pi_optimized.bin_2]
 board.cache_hierarchy.ruby_system.L1Cache_Controller.E.Load::total: 15471.0
@@ -193,6 +170,36 @@ board.processor.cores6.core.cpi: N/A
 board.processor.cores7.core.cpi: N/A
 board.processor.cores8.core.cpi: N/A
 board.processor.cores9.core.cpi: N/A
+simSeconds: 0.011175
+
+[out_pi_optimized.bin_4]
+board.cache_hierarchy.ruby_system.L1Cache_Controller.E.Load::total: 15612.0
+board.cache_hierarchy.ruby_system.L1Cache_Controller.I.Load::total: 23.0
+board.cache_hierarchy.ruby_system.L1Cache_Controller.Inv::total: 403.0
+board.cache_hierarchy.ruby_system.L1Cache_Controller.M.Load::total: 10036931.0
+board.cache_hierarchy.ruby_system.L1Cache_Controller.S.Load::total: 3029904.0
+board.cache_hierarchy.ruby_system.L2Cache_Controller.L1_GETS: 2030.0
+board.cache_hierarchy.ruby_system.L2Cache_Controller.L1_GETX: 1037.0
+board.cache_hierarchy.ruby_system.network.msg_count.Request_Control: 1130.0
+board.cache_hierarchy.ruby_system.network.msg_count.Response_Data: 21816.0
+board.cache_hierarchy.ruby_system.network.msg_count.Writeback_Data: 1486.0
+board.processor.cores0.core.cpi: 2.256581
+board.processor.cores1.core.cpi: 2.171261
+board.processor.cores10.core.cpi: N/A
+board.processor.cores11.core.cpi: N/A
+board.processor.cores12.core.cpi: N/A
+board.processor.cores13.core.cpi: N/A
+board.processor.cores14.core.cpi: N/A
+board.processor.cores15.core.cpi: N/A
+board.processor.cores2.core.cpi: 2.170275
+board.processor.cores3.core.cpi: 2.169415
+board.processor.cores4.core.cpi: N/A
+board.processor.cores5.core.cpi: N/A
+board.processor.cores6.core.cpi: N/A
+board.processor.cores7.core.cpi: N/A
+board.processor.cores8.core.cpi: N/A
+board.processor.cores9.core.cpi: N/A
+simSeconds: 0.005764
 
 [out_pi_optimized.bin_8]
 board.cache_hierarchy.ruby_system.L1Cache_Controller.E.Load::total: 15940.0
@@ -221,4 +228,5 @@ board.processor.cores6.core.cpi: 2.172178
 board.processor.cores7.core.cpi: 2.172108
 board.processor.cores8.core.cpi: N/A
 board.processor.cores9.core.cpi: N/A
+simSeconds: 0.003069
 
