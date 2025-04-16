@@ -9,6 +9,7 @@ This system support the memory size of up to 3GB.
 from __future__ import print_function
 from __future__ import absolute_import
 import math
+from typing import Type, Union
 from m5.defines import buildEnv
 from m5.util import fatal, panic
 from m5.objects import *
@@ -19,7 +20,7 @@ from gem5.utils.requires import requires
 
 from gem5.components.processors.abstract_core import AbstractCore
 
-from networks import Circle, Mesh_XY, SimplePt2Pt, Crossbar
+# from networks import Circle, Mesh_XY, SimplePt2Pt, Crossbar
 
 
 
@@ -78,6 +79,7 @@ class MESITwoLevelCacheHierarchy(
         l2_size: str,
         l2_assoc: str,
         num_l2_banks: int,
+        network_type: SimpleNetwork
     ):
         AbstractRubyCacheHierarchy.__init__(self=self)
         AbstractTwoLevelCacheHierarchy.__init__(
@@ -91,6 +93,7 @@ class MESITwoLevelCacheHierarchy(
         )
 
         self._num_l2_banks = num_l2_banks
+        self._network_type = network_type
 
     @overrides(AbstractCacheHierarchy)
     def get_coherence_protocol(self):
@@ -107,7 +110,8 @@ class MESITwoLevelCacheHierarchy(
         self.ruby_system.number_of_virtual_networks = 3
 
         # Create the network 
-        self.ruby_system.network = SimplePt2Pt(self.ruby_system)
+        # self.ruby_system.network = SimplePt2Pt(self.ruby_system)
+        self.ruby_system.network = self._network_type(self.ruby_system)
         self.ruby_system.network.number_of_virtual_networks = 3
 
         # For each core, create an L1 cache and connect it to the core. Also create sequencer for each L1 cache.
