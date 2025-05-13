@@ -13,9 +13,10 @@ while [[ "$1" == "--avx512" ]]; do
 done
 
 if [ -n "$AVX_FLAG" ]; then
-  gcc -O3 -march=znver1 -lm $AVX_FLAG -o main k-means_sca.c
+  gcc -O3 -march=znver1 -lm $AVX_FLAG -o main.out k-means_sca.c
 else
-  gcc -O3 -lm -o main k-means_sca.c
+  gcc -O3 -lm -o main.out k-means_sca.c
 fi
 
-srun --reservation=fri ./main
+srun --reservation=fri --constraint=amd ./main.out
+rm main.out
