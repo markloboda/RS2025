@@ -52,119 +52,153 @@ void assign_points_to_clusters(struct Cluster clusters[], float* image, int imag
     int cluster_index = 0;
     float min_distance = __DBL_MAX__;
 
-    // Preload centroids in chunks of 8 into __m256 registers
-    __m256 centroid_vectors[NUM_CLUSTERS / 8]; // Array to hold 8 centroids per __m256
-
-    for (int k = 0; k < NUM_CLUSTERS; k += 8)
+    if (NUM_CLUSTERS == 4)
     {
-        // Load 8 centroids into a __m256 register
-        centroid_vectors[k / 8] = _mm256_set_ps(
-            clusters[k + 0].centroid,
-            clusters[k + 1].centroid,
-            clusters[k + 2].centroid,
-            clusters[k + 3].centroid,
-            clusters[k + 4].centroid,
-            clusters[k + 5].centroid,
-            clusters[k + 6].centroid,
-            clusters[k + 7].centroid
+        // Use __m128 for 4 clusters
+        __m128 centroid_vector = _mm_set_ps(
+            clusters[0].centroid,
+            clusters[1].centroid,
+            clusters[2].centroid,
+            clusters[3].centroid
         );
-    }
 
-    for (int i = 0; i < image_size; i++)
-    {
-        float image_val = image[i];
-        min_distance = __DBL_MAX__;
-        cluster_index = 0;
-
-        // Process centroids in chunks of 8 (loaded into __m256 registers)
-        for (int k = 0; k < NUM_CLUSTERS; k += 8)
+        for (int i = 0; i < image_size; i++)
         {
-            // Load 8 centroids for this chunk
-            __m256 centroid_vector = centroid_vectors[k / 8];
+            float image_val = image[i];
+            __m128 image_value = _mm_set1_ps(image_val);
+            __m128 dist = _mm_sub_ps(image_value, centroid_vector);
+            __m128 abs_dist = _mm_andnot_ps(_mm_set1_ps(-0.0f), dist);
 
-            // Process using AVX
-            __m256 image_value = _mm256_set1_ps(image_val);
-            __m256 dist = _mm256_sub_ps(image_value, centroid_vector);
-            __m256 sign = _mm256_set1_ps(-0.0);
-            __m256 abs_dist = _mm256_andnot_ps(sign, dist); // abs
+            float d[4];
+            _mm_storeu_ps(d, abs_dist);
 
-            float d[8];
-            _mm256_storeu_ps(d, abs_dist);
-
-            // Find the minimum distance in this chunk of 8 centroids
-            for (int j = 0; j < 8; j++) {
-                int cluster_id = k + j;
-                if (cluster_id < NUM_CLUSTERS && d[j] < min_distance) {
+            min_distance = d[0];
+            cluster_index = 0;
+            for (int j = 1; j < 4; j++) {
+                if (d[j] < min_distance) {
                     min_distance = d[j];
-                    cluster_index = cluster_id;
+                    cluster_index = j;
                 }
             }
-        }
 
-        // Assign the point to the closest cluster
-        clusters[cluster_index].points[clusters[cluster_index].num_points++] = i;
+            clusters[cluster_index].points[clusters[cluster_index].num_points++] = i;
+        }
+    }
+    else
+    {
+        // Preload centroids in chunks of 8 into __m256 registers
+        __m256 centroid_vectors[NUM_CLUSTERS / 8]; // Array to hold 8 centroids per __m256
+
+        for (int k = 0; k < NUM_CLUSTERS; k += 8)
+        {
+            // Load 8 centroids into a __m256 register
+            centroid_vectors[k / 8] = _mm256_set_ps(
+                clusters[k + 0].centroid,
+                clusters[k + 1].centroid,
+                clusters[k + 2].centroid,
+                clusters[k + 3].centroid,
+                clusters[k + 4].centroid,
+                clusters[k + 5].centroid,
+                clusters[k + 6].centroid,
+                clusters[k + 7].centroid
+            );
+        }
+        for (int i = 0; i < image_size; i++)
+        {
+            float image_val = image[i];
+            min_distance = __DBL_MAX__;
+            cluster_index = 0;
+
+            // Process centroids in chunks of 8 (loaded into __m256 registers)
+            for (int k = 0; k < NUM_CLUSTERS; k += 8)
+            {
+                // Load 8 centroids for this chunk
+                __m256 centroid_vector = centroid_vectors[k / 8];
+
+                // Process using AVX
+                __m256 image_value = _mm256_set1_ps(image_val);
+                __m256 dist = _mm256_sub_ps(image_value, centroid_vector);
+                __m256 sign = _mm256_set1_ps(-0.0);
+                __m256 abs_dist = _mm256_andnot_ps(sign, dist); // abs
+
+                float d[8];
+                _mm256_storeu_ps(d, abs_dist);
+
+                // Find the minimum distance in this chunk of 8 centroids
+                for (int j = 0; j < 8; j++) {
+                    int cluster_id = k + j;
+                    if (cluster_id < NUM_CLUSTERS && d[j] < min_distance) {
+                        min_distance = d[j];
+                        cluster_index = cluster_id;
+                    }
+                }
+            }
+
+            // Assign the point to the closest cluster
+            clusters[cluster_index].points[clusters[cluster_index].num_points++] = i;
+        }
     }
 }
 #elif defined USE_AVX512
-// Function to assign points (pixels) to clusters
-void assign_points_to_clusters(struct Cluster clusters[], float* image, int image_size)
-{
-    int cluster_index = 0;
-    float min_distance = __DBL_MAX__;
+// // Function to assign points (pixels) to clusters
+// void assign_points_to_clusters(struct Cluster clusters[], float* image, int image_size)
+// {
+//     int cluster_index = 0;
+//     float min_distance = __DBL_MAX__;
 
-    // Preload centroids in chunks of 8 into __m256 registers
-    __m256 centroid_vectors[NUM_CLUSTERS / 8]; // Array to hold 8 centroids per __m256
+//     // Preload centroids in chunks of 8 into __m256 registers
+//     __m256 centroid_vectors[NUM_CLUSTERS / 8]; // Array to hold 8 centroids per __m256
 
-    for (int k = 0; k < NUM_CLUSTERS; k += 8)
-    {
-        // Load 8 centroids into a __m256 register
-        centroid_vectors[k / 8] = _mm256_set_ps(
-            clusters[k + 0].centroid,
-            clusters[k + 1].centroid,
-            clusters[k + 2].centroid,
-            clusters[k + 3].centroid,
-            clusters[k + 4].centroid,
-            clusters[k + 5].centroid,
-            clusters[k + 6].centroid,
-            clusters[k + 7].centroid
-        );
-    }
+//     for (int k = 0; k < NUM_CLUSTERS; k += 8)
+//     {
+//         // Load 8 centroids into a __m256 register
+//         centroid_vectors[k / 8] = _mm256_set_ps(
+//             clusters[k + 0].centroid,
+//             clusters[k + 1].centroid,
+//             clusters[k + 2].centroid,
+//             clusters[k + 3].centroid,
+//             clusters[k + 4].centroid,
+//             clusters[k + 5].centroid,
+//             clusters[k + 6].centroid,
+//             clusters[k + 7].centroid
+//         );
+//     }
 
-    for (int i = 0; i < image_size; i++)
-    {
-        float image_val = image[i];
-        min_distance = __DBL_MAX__;
-        cluster_index = 0;
+//     for (int i = 0; i < image_size; i++)
+//     {
+//         float image_val = image[i];
+//         min_distance = __DBL_MAX__;
+//         cluster_index = 0;
 
-        // Process centroids in chunks of 8 (loaded into __m256 registers)
-        for (int k = 0; k < NUM_CLUSTERS; k += 8)
-        {
-            // Load 8 centroids for this chunk
-            __m256 centroid_vector = centroid_vectors[k / 8];
+//         // Process centroids in chunks of 8 (loaded into __m256 registers)
+//         for (int k = 0; k < NUM_CLUSTERS; k += 8)
+//         {
+//             // Load 8 centroids for this chunk
+//             __m256 centroid_vector = centroid_vectors[k / 8];
 
-            // Process using AVX
-            __m256 image_value = _mm256_set1_ps(image_val);
-            __m256 dist = _mm256_sub_ps(image_value, centroid_vector);
-            __m256 sign = _mm256_set1_ps(-0.0);
-            __m256 abs_dist = _mm256_andnot_ps(sign, dist); // abs
+//             // Process using AVX
+//             __m256 image_value = _mm256_set1_ps(image_val);
+//             __m256 dist = _mm256_sub_ps(image_value, centroid_vector);
+//             __m256 sign = _mm256_set1_ps(-0.0);
+//             __m256 abs_dist = _mm256_andnot_ps(sign, dist); // abs
 
-            float d[8];
-            _mm256_storeu_ps(d, abs_dist);
+//             float d[8];
+//             _mm256_storeu_ps(d, abs_dist);
 
-            // Find the minimum distance in this chunk of 8 centroids
-            for (int j = 0; j < 8; j++) {
-                int cluster_id = k + j;
-                if (cluster_id < NUM_CLUSTERS && d[j] < min_distance) {
-                    min_distance = d[j];
-                    cluster_index = cluster_id;
-                }
-            }
-        }
+//             // Find the minimum distance in this chunk of 8 centroids
+//             for (int j = 0; j < 8; j++) {
+//                 int cluster_id = k + j;
+//                 if (cluster_id < NUM_CLUSTERS && d[j] < min_distance) {
+//                     min_distance = d[j];
+//                     cluster_index = cluster_id;
+//                 }
+//             }
+//         }
 
-        // Assign the point to the closest cluster
-        clusters[cluster_index].points[clusters[cluster_index].num_points++] = i;
-    }
-}
+//         // Assign the point to the closest cluster
+//         clusters[cluster_index].points[clusters[cluster_index].num_points++] = i;
+//     }
+// }
 #else
 // Function to assign points (pixels) to clusters
 void assign_points_to_clusters(struct Cluster clusters[], float* image, int image_size) {
@@ -229,37 +263,37 @@ void update_centroids(struct Cluster clusters[], float* image, int image_size)
     }
 }
 #elif defined USE_AVX512
-// Function to update centroids of clusters
-void update_centroids(struct Cluster clusters[], float* image, int image_size)
-{
-    for (int i = 0; i < NUM_CLUSTERS; i+=8)
-    {
-        __m256 sums = _mm256_setzero_ps();
+// // Function to update centroids of clusters
+// void update_centroids(struct Cluster clusters[], float* image, int image_size)
+// {
+//     for (int i = 0; i < NUM_CLUSTERS; i+=8)
+//     {
+//         __m256 sums = _mm256_setzero_ps();
 
-        int k = 0;
-        for (; k < clusters[i].num_points; k+=8)
-        {
-            __m256 image_values = _mm256_set_ps(
-                image[clusters[i].points[k]],
-                image[clusters[i].points[k + 1]],
-                image[clusters[i].points[k + 2]],
-                image[clusters[i].points[k + 3]]
-            );
+//         int k = 0;
+//         for (; k < clusters[i].num_points; k+=8)
+//         {
+//             __m256 image_values = _mm256_set_ps(
+//                 image[clusters[i].points[k]],
+//                 image[clusters[i].points[k + 1]],
+//                 image[clusters[i].points[k + 2]],
+//                 image[clusters[i].points[k + 3]]
+//             );
 
-            sums = _mm256_add_ps(sums, image_values);
-        }
+//             sums = _mm256_add_ps(sums, image_values);
+//         }
 
-        float sums_arr[8];
-        _mm256_storeu_ps(sums_arr, sums);
-        float sum = sums_arr[0] + sums_arr[1] + sums_arr[2] + sums_arr[3];
+//         float sums_arr[8];
+//         _mm256_storeu_ps(sums_arr, sums);
+//         float sum = sums_arr[0] + sums_arr[1] + sums_arr[2] + sums_arr[3];
 
-        // Remainder if num_points is not a multiple of 8
-        for (; k < clusters[i].num_points; k++)
-        {
-            sum += image[clusters[i].points[k]];
-        }
-    }
-}
+//         // Remainder if num_points is not a multiple of 8
+//         for (; k < clusters[i].num_points; k++)
+//         {
+//             sum += image[clusters[i].points[k]];
+//         }
+//     }
+// }
 #else
 // Function to update centroids of clusters
 void update_centroids(struct Cluster clusters[], float* image, int image_size) {
