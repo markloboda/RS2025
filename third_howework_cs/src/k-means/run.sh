@@ -2,6 +2,8 @@
 
 AVX_FLAGS=""
 PROGRAM="k-means_sca_double.c"
+OUTFILE="main.out"
+CLUSTER_DEFINE=""
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
@@ -18,6 +20,16 @@ while [[ $# -gt 0 ]]; do
       PROGRAM="k-means_sca_single.c"
       shift
       ;;
+    --clusters)
+      shift
+      if [[ "$1" =~ ^[0-9]+$ ]]; then
+        CLUSTER_DEFINE="-DNUM_CLUSTERS=$1"
+        shift
+      else
+        echo "Error: --clusters requires a numeric argument"
+        exit 1
+      fi
+      ;;
     *)
       echo "Unknown option: $1"
       exit 1
@@ -26,10 +38,10 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Compile
-gcc -O3 -lm $AVX_FLAGS -o main.out "$PROGRAM"
+gcc -O3 -lm $AVX_FLAGS $CLUSTER_DEFINE -o "$OUTFILE" "$PROGRAM"
 
 # Run
-srun --reservation=fri --constraint=amd ./main.out
+srun --reservation=fri --constraint=amd ./"$OUTFILE"
 
 # Clean up
-rm main.out
+rm -f "$OUTFILE"

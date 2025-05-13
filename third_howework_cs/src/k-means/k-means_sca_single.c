@@ -8,14 +8,19 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 
-#define USE_AVX
+#define OUTPUT_RESULTS
+
+// #define USE_AVX
 // #define USE_AVX512
 
 #if defined(USE_AVX) || defined(USE_AVX512)
 #include <immintrin.h>
 #endif
 
+#ifndef NUM_CLUSTERS
 #define NUM_CLUSTERS 4
+#endif
+
 #define MAX_ITERATIONS 10000
 #define THRESHOLD 0.0001
 
@@ -392,12 +397,6 @@ int main() {
     }
 
     // Perform K-means clustering
-#ifdef USE_AVX
-    printf("\nUsing AVX instructions...\n");
-#else
-    printf("Using scalar instructions...\n");
-#endif
-
     start = rdtsc();
     k_means(image_pixels, image_size, clusters);
     end = rdtsc();
@@ -409,6 +408,24 @@ int main() {
     // for (int i = 0; i < NUM_CLUSTERS; i++) {
     //     printf("Cluster %d: %.2f\n", i + 1, clusters[i].centroid);
     // }
+
+    // output results to file
+#ifdef OUTPUT_RESULTS
+    FILE *fp = fopen("results.txt", "a");
+    if (fp == NULL) {
+        printf("Error opening file!\n");
+        exit(EXIT_FAILURE);
+    }
+
+    fprintf(fp, "-----------------------------------\n");
+#ifdef USE_AVX
+    fprintf(fp, "SINGLE;AVX;NUM_CLUSTERS=%d;MAX_ITERATIONS=%d;THRESHOLD=%.4f;CYCLES=%lld\n", NUM_CLUSTERS, MAX_ITERATIONS, THRESHOLD, cycles);
+#elif defined USE_AVX512
+    fprintf(fp, "SINGLE;AVX512;NUM_CLUSTERS=%d;MAX_ITERATIONS=%d;THRESHOLD=%.4f;CYCLES=%lld\n", NUM_CLUSTERS, MAX_ITERATIONS, THRESHOLD, cycles);
+#else
+    fprintf(fp, "SINGLE;SCALAR;NUM_CLUSTERS=%d;MAX_ITERATIONS=%d;THRESHOLD=%.4f;CYCLES=%lld\n", NUM_CLUSTERS, MAX_ITERATIONS, THRESHOLD, cycles);
+#endif
+#endif
 
     // // Segment image
     segment_image(image_pixels, clusters, image_size);
