@@ -7,8 +7,13 @@ while [[ "$1" == "--avx" ]]; do
   shift
 done
 
+while [[ "$1" == "--avx512" ]]; do
+  AVX_FLAG="-DUSE_AVX512"
+  shift
+done
+
 if [ -n "$AVX_FLAG" ]; then
-  gcc -O3 -mavx2 -lm $AVX_FLAG -o main k-means_sca.c
+  gcc -O3 -march=znver1 -lm $AVX_FLAG -o main k-means_sca.c
 else
   gcc -O3 -lm -o main k-means_sca.c
 fi

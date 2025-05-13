@@ -15,3 +15,5 @@ log/
 train_models.sh
 *_vec.c
 *_train.c
+*.log
+main
