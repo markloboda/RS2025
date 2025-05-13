@@ -13,7 +13,7 @@
 #include <immintrin.h>
 #endif
 
-#define NUM_CLUSTERS 4
+#define NUM_CLUSTERS 16
 #define MAX_ITERATIONS 10000
 #define THRESHOLD 0.0001
 
@@ -45,32 +45,41 @@ void assign_points_to_clusters(struct Cluster clusters[], double* image, int ima
     int cluster_index = 0;
     double min_distance = __DBL_MAX__;
 
+    // Preload centroids in chunks of 4 into __m256d registers
+    __m256d centroid_vectors[NUM_CLUSTERS / 4]; // Array to hold 4 centroids per __m256d
+
+    for (int k = 0; k < NUM_CLUSTERS; k += 4)
+    {
+        // Load 4 centroids into a __m256d register
+        centroid_vectors[k / 4] = _mm256_set_pd(
+            clusters[k + 3].centroid,
+            clusters[k + 2].centroid,
+            clusters[k + 1].centroid,
+            clusters[k + 0].centroid
+        );
+    }
+
     for (int i = 0; i < image_size; i++)
     {
         double image_val = image[i];
         min_distance = __DBL_MAX__;
         cluster_index = 0;
 
-        // Process centroids in chunks of 4
+        // Process centroids in chunks of 4 (loaded into __m256d registers)
         for (int k = 0; k < NUM_CLUSTERS; k += 4)
         {
-            // Load 4 centroids
-            double centroids[4] = {
-                clusters[k + 0].centroid,
-                clusters[k + 1].centroid,
-                clusters[k + 2].centroid,
-                clusters[k + 3].centroid
-            };
+            // Load 4 centroids for this chunk
+            __m256d centroid_vector = centroid_vectors[k / 4];
 
+            // Process using AVX
             __m256d image_value = _mm256_set1_pd(image_val);
-            __m256d centroid_vector = _mm256_loadu_pd(centroids);
             __m256d dist = _mm256_sub_pd(image_value, centroid_vector);
             __m256d abs_dist = _mm256_andnot_pd(_mm256_set1_pd(-0.0), dist); // abs
 
             double d[4];
             _mm256_storeu_pd(d, abs_dist);
 
-            // Find minimum in this chunk
+            // Find the minimum distance in this chunk of 4 centroids
             for (int j = 0; j < 4; j++) {
                 int cluster_id = k + j;
                 if (cluster_id < NUM_CLUSTERS && d[j] < min_distance) {
@@ -80,7 +89,7 @@ void assign_points_to_clusters(struct Cluster clusters[], double* image, int ima
             }
         }
 
-        // assign point to cluster
+        // Assign the point to the closest cluster
         clusters[cluster_index].points[clusters[cluster_index].num_points++] = i;
     }
 }
