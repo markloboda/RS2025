@@ -1,7 +1,7 @@
 solution
-test1.out 
+test1.out
 hpc_gemm
-test2.out 
+test2.out
 hpc_gemm_v2
 hpc_gemm_sol.c
 hpc_gemm_sol
@@ -15,4 +15,3 @@ log/
 train_models.sh
 *_vec.c
 *_train.c
-*.sh
