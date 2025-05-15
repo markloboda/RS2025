@@ -196,7 +196,7 @@ void update_centroids(struct Cluster clusters[], double* image, int image_size)
         __m256d sums = _mm256_setzero_pd();
 
         int k = 0;
-        for (; k < clusters[i].num_points; k+=4)
+        for (; k < clusters[i].num_points - 4; k+=4)
         {
             __m256d image_values = _mm256_set_pd(
                 image[clusters[i].points[k]],
