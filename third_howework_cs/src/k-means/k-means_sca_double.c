@@ -408,7 +408,6 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    fprintf(fp, "-----------------------------------\n");
 #ifdef USE_AVX
     fprintf(fp, "DOUBLE;AVX;NUM_CLUSTERS=%d;MAX_ITERATIONS=%d;THRESHOLD=%.4f;CYCLES=%lld\n", NUM_CLUSTERS, MAX_ITERATIONS, THRESHOLD, cycles);
 #elif defined USE_AVX512
