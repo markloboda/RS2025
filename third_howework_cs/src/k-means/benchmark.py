@@ -3,15 +3,9 @@ import time
 
 # Ordered configurations
 CONFIGS = [
-    # 8-bit unsigned
-    # {"description": "4 clusters, 8-bit unsigned",  "args": ["--clusters", "4"]},
-    # {"description": "8 clusters, 8-bit unsigned",  "args": ["--clusters", "8"]},
-    # {"description": "16 clusters, 8-bit unsigned", "args": ["--clusters", "16"]},
-
     # Single precision
     {"description": "4 clusters, single precision",  "args": ["--single", "--clusters", "4"]},
     {"description": "8 clusters, single precision",  "args": ["--single", "--clusters", "8"]},
-    {"description": "16 clusters, single precision", "args": ["--single", "--clusters", "16"]},
 
     # Double precision (no single flag means double precision)
     {"description": "4 clusters, double precision",  "args": ["--clusters", "4"]},
@@ -21,7 +15,7 @@ CONFIGS = [
 
 FLAGS = ["--scalar", "--avx"]
 SBATCH_SCRIPT = "sbatch_run.sh"
-NUM_RUNS = 2
+NUM_RUNS = 5
 
 def run_configs():
     for i in range(NUM_RUNS):
