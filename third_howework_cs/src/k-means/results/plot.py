@@ -39,9 +39,25 @@ plt.title('K-Means Speedup: Scalar vs AVX by Precision')
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-
-# Save the combined speedup plot
-authority_fname = 'speedup_vs_clusters.png'
-plt.savefig(authority_fname)
+plt.savefig('speedup_vs_clusters.png')
 plt.close()
-print(f"Saved combined speedup plot: {authority_fname}")
+print("Saved combined speedup plot: speedup_vs_clusters.png")
+
+# Average cycle plot split by precision
+for prec in grouped['precision'].unique():
+    plt.figure()
+    subset_prec = grouped[grouped['precision'] == prec]
+    for isa in subset_prec['isa'].unique():
+        subset = subset_prec[subset_prec['isa'] == isa]
+        plt.plot(subset['clusters'], subset['cycles'], marker='o', label=f"{isa}")
+
+    plt.xlabel('Number of Clusters')
+    plt.ylabel('Average Cycles')
+    plt.title(f'Average Cycles per Configuration - {prec} Precision')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    filename = f'avg_cycles_per_config_{prec.lower()}.png'
+    plt.savefig(filename)
+    plt.close()
+    print(f"Saved average cycle plot: {filename}")
