@@ -33,6 +33,7 @@ float sigmoid(float x)
 
 int max_index(float arr[], int size) {
     int max_i = 0;
+    // TODO vectorize
     for (int i = 1; i < size; i++) {
         if (arr[i] > arr[max_i]) {
             max_i = i;
@@ -182,33 +183,16 @@ int test(float input[INPUT_NODES], float** weight1, float** weight2, float* bias
         float sum = 0.0f;
 
         for (int j = 0; j < INPUT_NODES; j += 8) {
-            // If highest bit is 1, the input is unmasked. If the highest bit is zero, the input is masked out.
-            const int input_0_mask = -1;
-            const int input_1_mask = (j + 1) < HIDDEN_NODES ? -1 : 0;
-            const int input_2_mask = (j + 2) < HIDDEN_NODES ? -1 : 0;
-            const int input_3_mask = (j + 3) < HIDDEN_NODES ? -1 : 0;
-            const int input_4_mask = (j + 4) < HIDDEN_NODES ? -1 : 0;
-            const int input_5_mask = (j + 5) < HIDDEN_NODES ? -1 : 0;
-            const int input_6_mask = (j + 6) < HIDDEN_NODES ? -1 : 0;
-            const int input_7_mask = (j + 7) < HIDDEN_NODES ? -1 : 0;
-
-            const __m256i input_load_mask = _mm256_setr_epi32(
-                input_0_mask, input_1_mask, input_2_mask, input_3_mask,
-                input_4_mask, input_5_mask, input_6_mask, input_7_mask
-            );
-
-
-            const __m256 loaded_inputs = _mm256_maskload_ps(&input[j], input_load_mask);
-
+            const __m256 loaded_inputs = _mm256_load_ps(&hidden[j]);
 
             const float weight1_0 = weight1[j][i];
-            const float weight1_1 = get_2d_array_value_or_zero(weight1, INPUT_NODES, HIDDEN_NODES, j + 1, i);
-            const float weight1_2 = get_2d_array_value_or_zero(weight1, INPUT_NODES, HIDDEN_NODES, j + 2, i);
-            const float weight1_3 = get_2d_array_value_or_zero(weight1, INPUT_NODES, HIDDEN_NODES, j + 3, i);
-            const float weight1_4 = get_2d_array_value_or_zero(weight1, INPUT_NODES, HIDDEN_NODES, j + 4, i);
-            const float weight1_5 = get_2d_array_value_or_zero(weight1, INPUT_NODES, HIDDEN_NODES, j + 5, i);
-            const float weight1_6 = get_2d_array_value_or_zero(weight1, INPUT_NODES, HIDDEN_NODES, j + 6, i);
-            const float weight1_7 = get_2d_array_value_or_zero(weight1, INPUT_NODES, HIDDEN_NODES, j + 7, i);
+            const float weight1_1 = weight1[j + 1][i];
+            const float weight1_2 = weight1[j + 2][i];
+            const float weight1_3 = weight1[j + 3][i];
+            const float weight1_4 = weight1[j + 4][i];
+            const float weight1_5 = weight1[j + 5][i];
+            const float weight1_6 = weight1[j + 6][i];
+            const float weight1_7 = weight1[j + 7][i];
 
             const __m256 loaded_weights = _mm256_set_ps(
                 weight1_0, weight1_1, weight1_2, weight1_3,
@@ -217,15 +201,17 @@ int test(float input[INPUT_NODES], float** weight1, float** weight2, float* bias
 
             const __m256 multiplication_results = _mm256_mul_ps(loaded_inputs, loaded_weights);
 
-            // TODO this can be optimized by using horizontal sums (three times)
-            sum += multiplication_results[0];
-            sum += multiplication_results[1];
-            sum += multiplication_results[2];
-            sum += multiplication_results[3];
-            sum += multiplication_results[4];
-            sum += multiplication_results[5];
-            sum += multiplication_results[6];
-            sum += multiplication_results[7];
+            float multiplication_results_array[8];
+            _mm256_storeu_ps(multiplication_results_array, multiplication_results);
+
+            sum += multiplication_results_array[0];
+            sum += multiplication_results_array[1];
+            sum += multiplication_results_array[2];
+            sum += multiplication_results_array[3];
+            sum += multiplication_results_array[4];
+            sum += multiplication_results_array[5];
+            sum += multiplication_results_array[6];
+            sum += multiplication_results_array[7];
         }
 
         sum += bias1[i];
@@ -237,33 +223,16 @@ int test(float input[INPUT_NODES], float** weight1, float** weight2, float* bias
         float sum = 0.0f;
 
         for (int j = 0; j < HIDDEN_NODES; j += 8) {
-            // If highest bit is 1, the input is unmasked. If the highest bit is zero, the input is masked out.
-            const int input_0_mask = -1;
-            const int input_1_mask = (j + 1) < HIDDEN_NODES ? -1 : 0;
-            const int input_2_mask = (j + 2) < HIDDEN_NODES ? -1 : 0;
-            const int input_3_mask = (j + 3) < HIDDEN_NODES ? -1 : 0;
-            const int input_4_mask = (j + 4) < HIDDEN_NODES ? -1 : 0;
-            const int input_5_mask = (j + 5) < HIDDEN_NODES ? -1 : 0;
-            const int input_6_mask = (j + 6) < HIDDEN_NODES ? -1 : 0;
-            const int input_7_mask = (j + 7) < HIDDEN_NODES ? -1 : 0;
-
-            const __m256i input_load_mask = _mm256_setr_epi32(
-                input_0_mask, input_1_mask, input_2_mask, input_3_mask,
-                input_4_mask, input_5_mask, input_6_mask, input_7_mask
-            );
-
-
-            const __m256 loaded_inputs = _mm256_maskload_ps(&hidden[j], input_load_mask);
-
+            __m256 loaded_inputs = _mm256_load_ps(&hidden[j]);
 
             const float weight1_0 = weight2[j][i];
-            const float weight1_1 = get_2d_array_value_or_zero(weight2, INPUT_NODES, HIDDEN_NODES, j + 1, i);
-            const float weight1_2 = get_2d_array_value_or_zero(weight2, INPUT_NODES, HIDDEN_NODES, j + 2, i);
-            const float weight1_3 = get_2d_array_value_or_zero(weight2, INPUT_NODES, HIDDEN_NODES, j + 3, i);
-            const float weight1_4 = get_2d_array_value_or_zero(weight2, INPUT_NODES, HIDDEN_NODES, j + 4, i);
-            const float weight1_5 = get_2d_array_value_or_zero(weight2, INPUT_NODES, HIDDEN_NODES, j + 5, i);
-            const float weight1_6 = get_2d_array_value_or_zero(weight2, INPUT_NODES, HIDDEN_NODES, j + 6, i);
-            const float weight1_7 = get_2d_array_value_or_zero(weight2, INPUT_NODES, HIDDEN_NODES, j + 7, i);
+            const float weight1_1 = weight2[j + 1][i];
+            const float weight1_2 = weight2[j + 2][i];
+            const float weight1_3 = weight2[j + 3][i];
+            const float weight1_4 = weight2[j + 4][i];
+            const float weight1_5 = weight2[j + 5][i];
+            const float weight1_6 = weight2[j + 6][i];
+            const float weight1_7 = weight2[j + 7][i];
 
             const __m256 loaded_weights = _mm256_set_ps(
                 weight1_0, weight1_1, weight1_2, weight1_3,
@@ -272,15 +241,17 @@ int test(float input[INPUT_NODES], float** weight1, float** weight2, float* bias
 
             const __m256 multiplication_results = _mm256_mul_ps(loaded_inputs, loaded_weights);
 
-            // TODO this can be optimized by using horizontal sums (three times)
-            sum += multiplication_results[0];
-            sum += multiplication_results[1];
-            sum += multiplication_results[2];
-            sum += multiplication_results[3];
-            sum += multiplication_results[4];
-            sum += multiplication_results[5];
-            sum += multiplication_results[6];
-            sum += multiplication_results[7];
+            float multiplication_results_array[8];
+            _mm256_storeu_ps(multiplication_results_array, multiplication_results);
+
+            sum += multiplication_results_array[0];
+            sum += multiplication_results_array[1];
+            sum += multiplication_results_array[2];
+            sum += multiplication_results_array[3];
+            sum += multiplication_results_array[4];
+            sum += multiplication_results_array[5];
+            sum += multiplication_results_array[6];
+            sum += multiplication_results_array[7];
         }
 
         sum += bias2[i];
