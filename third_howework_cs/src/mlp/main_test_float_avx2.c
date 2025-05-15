@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -18,22 +19,24 @@ float test_images[NUM_TEST_IMAGES][INPUT_NODES];
 float test_labels[NUM_TEST_IMAGES][OUTPUT_NODES];
 
 // Dynamically allocated weights and biases
-float **weight1;
-float **weight2;
-float *bias1;
-float *bias2;
+float **weight1 = NULL;
+float **weight2 = NULL;
+float *bias1 = NULL;
+float *bias2 = NULL;
 
 int HIDDEN_NODES;
 int NUMBER_OF_EPOCHS;
 
-float sigmoid(float x)
-{
+
+float sigmoid(float x) {
     return 1.0f / (1.0f + expf(-x));
 }
 
+// Not really worth vectorizing in our case, because the size is
+// only ever OUTPUT_NODES, which equals to 10.
 int max_index(float arr[], int size) {
     int max_i = 0;
-    // TODO vectorize
+
     for (int i = 1; i < size; i++) {
         if (arr[i] > arr[max_i]) {
             max_i = i;
@@ -45,8 +48,7 @@ int max_index(float arr[], int size) {
 
 
 
-void load_mnist()
-{
+void load_mnist() {
     // Open the training images file
     FILE *training_images_file = fopen("./mnist_dataset/mnist_train_images.bin", "rb");
     if (training_images_file == NULL)
@@ -144,155 +146,121 @@ void load_mnist()
     fclose(test_labels_file);
 }
 
-static inline float get_array_value_or_zero(
-    const float* array,
-    const unsigned int array_length,
-    const unsigned int index
+
+int test(
+    float input[INPUT_NODES],
+    float** weight1,
+    float** weight2,
+    float* bias1,
+    float* bias2,
+    int correct_label
 ) {
-    if (index >= array_length) {
-        return 0.0f;
-    }
-
-    return array[index];
-}
-
-static inline float get_2d_array_value_or_zero(
-    float** array,
-    const unsigned int array_length_first_dimension,
-    const unsigned int array_length_second_dimension,
-    const unsigned int index_first_dimension,
-    const unsigned int index_second_dimension
-) {
-    if (index_first_dimension >= array_length_first_dimension || index_second_dimension >= array_length_second_dimension) {
-        return 0.0f;
-    }
-
-    return array[index_first_dimension][index_second_dimension];
-}
-
-
-int test(float input[INPUT_NODES], float** weight1, float** weight2, float* bias1, float* bias2, int correct_label)
-{   
     int correct_predictions = 0;
-    float hidden[HIDDEN_NODES];
-    float output_layer[OUTPUT_NODES];
+
+    assert(HIDDEN_NODES % 8 == 0);
+    assert(INPUT_NODES % 8 == 0);
 
     // TODO rewriting with AVX2 below
 
-    for (int i = 0; i < HIDDEN_NODES; i++) {
-        float sum = 0.0f;
+    // Hack: we'll invert the loops to be i-j instead of j-i.
 
-        for (int j = 0; j < INPUT_NODES; j += 8) {
-            const __m256 loaded_inputs = _mm256_load_ps(&hidden[j]);
+    // This will mean that we'll need several 256-bit AVX2 registers to store partial sums.
+    // To avoid having to add biases for each hidden node at the end, we'll just simply initialize
+    // the partial sums with them at the start.
 
-            const float weight1_0 = weight1[j][i];
-            const float weight1_1 = weight1[j + 1][i];
-            const float weight1_2 = weight1[j + 2][i];
-            const float weight1_3 = weight1[j + 3][i];
-            const float weight1_4 = weight1[j + 4][i];
-            const float weight1_5 = weight1[j + 5][i];
-            const float weight1_6 = weight1[j + 6][i];
-            const float weight1_7 = weight1[j + 7][i];
+    const int num_of_input_sum_segments = HIDDEN_NODES / 8;
+    __m256 sum_input_segments[num_of_input_sum_segments];
 
-            const __m256 loaded_weights = _mm256_set_ps(
-                weight1_0, weight1_1, weight1_2, weight1_3,
-                weight1_4, weight1_5, weight1_6, weight1_7
-            );
-
-            const __m256 multiplication_results = _mm256_mul_ps(loaded_inputs, loaded_weights);
-
-            float multiplication_results_array[8];
-            _mm256_storeu_ps(multiplication_results_array, multiplication_results);
-
-            sum += multiplication_results_array[0];
-            sum += multiplication_results_array[1];
-            sum += multiplication_results_array[2];
-            sum += multiplication_results_array[3];
-            sum += multiplication_results_array[4];
-            sum += multiplication_results_array[5];
-            sum += multiplication_results_array[6];
-            sum += multiplication_results_array[7];
-        }
-
-        sum += bias1[i];
-        hidden[i] = sigmoid(sum);
-
+    for (int segment_index = 0; segment_index < num_of_input_sum_segments; segment_index++) {
+        sum_input_segments[segment_index] = _mm256_loadu_ps(&bias1[segment_index * 8]);
     }
 
-    for (int i = 0; i < OUTPUT_NODES; i++) {
-        float sum = 0.0f;
+    for (int j = 0; j < INPUT_NODES; j++) {
+        // For the given input node `j`, we'll add the `input[j] * weight1[j][i]`,
+        // where we go over all hidden nodes (`i`s). However, we'll do them in 8-chunk segments,
+        // for which we prepared `sum_segments` above.
 
-        for (int j = 0; j < HIDDEN_NODES; j += 8) {
-            __m256 loaded_inputs = _mm256_load_ps(&hidden[j]);
+        __m256 input_value = _mm256_set1_ps(input[j]);
 
-            const float weight1_0 = weight2[j][i];
-            const float weight1_1 = weight2[j + 1][i];
-            const float weight1_2 = weight2[j + 2][i];
-            const float weight1_3 = weight2[j + 3][i];
-            const float weight1_4 = weight2[j + 4][i];
-            const float weight1_5 = weight2[j + 5][i];
-            const float weight1_6 = weight2[j + 6][i];
-            const float weight1_7 = weight2[j + 7][i];
+        const float* weight1_at_j = weight1[j];
+        for (int segment_index = 0; segment_index < num_of_input_sum_segments; segment_index++) {
+            __m256 weights = _mm256_loadu_ps(&weight1_at_j[segment_index * 8]);
 
-            const __m256 loaded_weights = _mm256_set_ps(
-                weight1_0, weight1_1, weight1_2, weight1_3,
-                weight1_4, weight1_5, weight1_6, weight1_7
+            // What we're doing is essentially multiplication and addition,
+            // or in other words FMA (fused multiply and add), which has a specific intrinsic.
+            sum_input_segments[segment_index] = _mm256_fmadd_ps(
+                input_value,
+                weights,
+                sum_input_segments[segment_index]
             );
-
-            const __m256 multiplication_results = _mm256_mul_ps(loaded_inputs, loaded_weights);
-
-            float multiplication_results_array[8];
-            _mm256_storeu_ps(multiplication_results_array, multiplication_results);
-
-            sum += multiplication_results_array[0];
-            sum += multiplication_results_array[1];
-            sum += multiplication_results_array[2];
-            sum += multiplication_results_array[3];
-            sum += multiplication_results_array[4];
-            sum += multiplication_results_array[5];
-            sum += multiplication_results_array[6];
-            sum += multiplication_results_array[7];
         }
-
-        sum += bias2[i];
-        output_layer[i] = sigmoid(sum);
     }
 
-    int index = max_index(output_layer, OUTPUT_NODES);
+    float hidden[HIDDEN_NODES];
+    for (int segment_index = 0; segment_index < num_of_input_sum_segments; segment_index++) {
+        float final_sums[8];
+        _mm256_storeu_ps(final_sums, sum_input_segments[segment_index]);
+
+        hidden[segment_index * 8] = sigmoid(final_sums[0]);
+        hidden[segment_index * 8 + 1] = sigmoid(final_sums[1]);
+        hidden[segment_index * 8 + 2] = sigmoid(final_sums[2]);
+        hidden[segment_index * 8 + 3] = sigmoid(final_sums[3]);
+        hidden[segment_index * 8 + 4] = sigmoid(final_sums[4]);
+        hidden[segment_index * 8 + 5] = sigmoid(final_sums[5]);
+        hidden[segment_index * 8 + 6] = sigmoid(final_sums[6]);
+        hidden[segment_index * 8 + 7] = sigmoid(final_sums[7]);
+    }
+
+
+
+    // Again, instead of adding the second bias at the end, we can just initialize the sums with them.
+    const int num_of_output_sum_segments = OUTPUT_NODES / 8;
+    __m256 sum_output_segments[num_of_output_sum_segments];
+    for (int segment_index = 0; segment_index < num_of_output_sum_segments; segment_index++) {
+        sum_output_segments[segment_index] = _mm256_loadu_ps(&bias2[segment_index * 8]);
+    }
+
+    for (int j = 0; j < HIDDEN_NODES; j++) {
+        // For the given hidden node `j`, we'll add the `hidden[j] * weight2[j][i]`,
+        // where we go over all hidden nodes (`i`s). However, we'll do them in 8-chunk segments,
+        // for which we prepared `sum_segments` above.
+
+        __m256 hidden_value = _mm256_set1_ps(hidden[j]);
+
+        const float* weight2_at_j = weight2[j];
+        for (int segment_index = 0; segment_index < num_of_output_sum_segments; segment_index++) {
+            __m256 weights = _mm256_loadu_ps(&weight2_at_j[segment_index * 8]);
+
+            // What we're doing is essentially multiplication and addition,
+            // or in other words FMA (fused multiply and add), which has a specific intrinsic.
+            sum_output_segments[segment_index] = _mm256_fmadd_ps(
+                hidden_value,
+                weights,
+                sum_output_segments[segment_index]
+            );
+        }
+    }
+
+    float output_layer[OUTPUT_NODES];
+    for (int segment_index = 0; segment_index < num_of_output_sum_segments; segment_index++) {
+        float final_sums[8];
+        _mm256_storeu_ps(final_sums, sum_output_segments[segment_index]);
+
+        output_layer[segment_index * 8] = sigmoid(final_sums[0]);
+        output_layer[segment_index * 8 + 1] = sigmoid(final_sums[1]);
+        output_layer[segment_index * 8 + 2] = sigmoid(final_sums[2]);
+        output_layer[segment_index * 8 + 3] = sigmoid(final_sums[3]);
+        output_layer[segment_index * 8 + 4] = sigmoid(final_sums[4]);
+        output_layer[segment_index * 8 + 5] = sigmoid(final_sums[5]);
+        output_layer[segment_index * 8 + 6] = sigmoid(final_sums[6]);
+        output_layer[segment_index * 8 + 7] = sigmoid(final_sums[7]);
+    }
+
+
+    const int index = max_index(output_layer, OUTPUT_NODES);
 
     correct_predictions = index == correct_label ? 1 : 0;
     return correct_predictions;
-
-    // TODO DEPRECATED below, rewriting with AVX2 above
-
-    /*
-    // Feedforward
-    for (int i = 0; i < HIDDEN_NODES; i++)
-    {
-        float sum = 0.0f;
-        for (int j = 0; j < INPUT_NODES; j++)
-        {
-            sum += input[j] * weight1[j][i];
-        }
-        sum += bias1[i];
-        hidden[i] = sigmoid(sum);
-    }
-
-    for (int i = 0; i < OUTPUT_NODES; i++)
-    {
-        float sum = 0.0f;
-        for (int j = 0; j < HIDDEN_NODES; j++)
-        {
-            sum += hidden[j] * weight2[j][i];
-        }
-        sum += bias2[i];
-        output_layer[i] = sigmoid(sum);
-    }
-    int index = max_index(output_layer, OUTPUT_NODES);
-
-    correct_predictions = index == correct_label ? 1 : 0;
-     
-    return correct_predictions;*/
 }
 
 // utils
@@ -353,7 +321,7 @@ void init_weigths_and_biases() {
 int main(int argc, char *argv[]) {
     if (argc != 2) {
         printf("Usage: %s <hidden_nodes>\n", argv[0]);
-        return 1;
+        return EXIT_FAILURE;
     }
 
     HIDDEN_NODES = atoi(argv[1]);
@@ -364,22 +332,25 @@ int main(int argc, char *argv[]) {
     
     // load mnist dataset
     load_mnist();
-    int correct_outcomes; 
-    
+
+    assert(training_images != NULL);
+    assert(weight1 != NULL);
+    assert(weight2 != NULL);
+    assert(bias1 != NULL);
+    assert(bias2 != NULL);
+
     // measuring time
     clock_t start, end;
     double cpu_time_used = 0.0;
 
-   
-    cpu_time_used = 0.0;
     // Train the network
-    correct_outcomes = 0;
-    for (int i = 0; i < NUM_TRAINING_IMAGES; i++)
-    {
+    int correct_outcomes = 0;
+    for (int i = 0; i < NUM_TRAINING_IMAGES; i++) {
         start = clock();
         correct_outcomes += test(training_images[i], weight1, weight2, bias1, bias2, max_index(training_labels[i], OUTPUT_NODES));
         end = clock();
-        cpu_time_used += ((double) (end - start)) / CLOCKS_PER_SEC;
+
+        cpu_time_used += (double) (end - start) / CLOCKS_PER_SEC;
     }
 
     printf("Correct outcomes: %i\n", correct_outcomes);
