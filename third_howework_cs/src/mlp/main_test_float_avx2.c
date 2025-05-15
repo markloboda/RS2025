@@ -4,6 +4,8 @@
 #include <time.h>
 #include <string.h>
 
+#include <immintrin.h>
+
 #define INPUT_NODES 784  // 28*28 pixels
 #define OUTPUT_NODES 10  // 10 digits (0-9)
 
@@ -141,12 +143,158 @@ void load_mnist()
     fclose(test_labels_file);
 }
 
+static inline float get_array_value_or_zero(
+    const float* array,
+    const unsigned int array_length,
+    const unsigned int index
+) {
+    if (index >= array_length) {
+        return 0.0f;
+    }
+
+    return array[index];
+}
+
+static inline float get_2d_array_value_or_zero(
+    float** array,
+    const unsigned int array_length_first_dimension,
+    const unsigned int array_length_second_dimension,
+    const unsigned int index_first_dimension,
+    const unsigned int index_second_dimension
+) {
+    if (index_first_dimension >= array_length_first_dimension || index_second_dimension >= array_length_second_dimension) {
+        return 0.0f;
+    }
+
+    return array[index_first_dimension][index_second_dimension];
+}
+
+
 int test(float input[INPUT_NODES], float** weight1, float** weight2, float* bias1, float* bias2, int correct_label)
 {   
     int correct_predictions = 0;
     float hidden[HIDDEN_NODES];
     float output_layer[OUTPUT_NODES];
 
+    // TODO rewriting with AVX2 below
+
+    for (int i = 0; i < HIDDEN_NODES; i++) {
+        float sum = 0.0f;
+
+        for (int j = 0; j < INPUT_NODES; j += 8) {
+            // If highest bit is 1, the input is unmasked. If the highest bit is zero, the input is masked out.
+            const int input_0_mask = -1;
+            const int input_1_mask = (j + 1) < HIDDEN_NODES ? -1 : 0;
+            const int input_2_mask = (j + 2) < HIDDEN_NODES ? -1 : 0;
+            const int input_3_mask = (j + 3) < HIDDEN_NODES ? -1 : 0;
+            const int input_4_mask = (j + 4) < HIDDEN_NODES ? -1 : 0;
+            const int input_5_mask = (j + 5) < HIDDEN_NODES ? -1 : 0;
+            const int input_6_mask = (j + 6) < HIDDEN_NODES ? -1 : 0;
+            const int input_7_mask = (j + 7) < HIDDEN_NODES ? -1 : 0;
+
+            const __m256i input_load_mask = _mm256_setr_epi32(
+                input_0_mask, input_1_mask, input_2_mask, input_3_mask,
+                input_4_mask, input_5_mask, input_6_mask, input_7_mask
+            );
+
+
+            const __m256 loaded_inputs = _mm256_maskload_ps(&input[j], input_load_mask);
+
+
+            const float weight1_0 = weight1[j][i];
+            const float weight1_1 = get_2d_array_value_or_zero(weight1, INPUT_NODES, HIDDEN_NODES, j + 1, i);
+            const float weight1_2 = get_2d_array_value_or_zero(weight1, INPUT_NODES, HIDDEN_NODES, j + 2, i);
+            const float weight1_3 = get_2d_array_value_or_zero(weight1, INPUT_NODES, HIDDEN_NODES, j + 3, i);
+            const float weight1_4 = get_2d_array_value_or_zero(weight1, INPUT_NODES, HIDDEN_NODES, j + 4, i);
+            const float weight1_5 = get_2d_array_value_or_zero(weight1, INPUT_NODES, HIDDEN_NODES, j + 5, i);
+            const float weight1_6 = get_2d_array_value_or_zero(weight1, INPUT_NODES, HIDDEN_NODES, j + 6, i);
+            const float weight1_7 = get_2d_array_value_or_zero(weight1, INPUT_NODES, HIDDEN_NODES, j + 7, i);
+
+            const __m256 loaded_weights = _mm256_set_ps(
+                weight1_0, weight1_1, weight1_2, weight1_3,
+                weight1_4, weight1_5, weight1_6, weight1_7
+            );
+
+            const __m256 multiplication_results = _mm256_mul_ps(loaded_inputs, loaded_weights);
+
+            // TODO this can be optimized by using horizontal sums (three times)
+            sum += multiplication_results[0];
+            sum += multiplication_results[1];
+            sum += multiplication_results[2];
+            sum += multiplication_results[3];
+            sum += multiplication_results[4];
+            sum += multiplication_results[5];
+            sum += multiplication_results[6];
+            sum += multiplication_results[7];
+        }
+
+        sum += bias1[i];
+        hidden[i] = sigmoid(sum);
+
+    }
+
+    for (int i = 0; i < OUTPUT_NODES; i++) {
+        float sum = 0.0f;
+
+        for (int j = 0; j < HIDDEN_NODES; j += 8) {
+            // If highest bit is 1, the input is unmasked. If the highest bit is zero, the input is masked out.
+            const int input_0_mask = -1;
+            const int input_1_mask = (j + 1) < HIDDEN_NODES ? -1 : 0;
+            const int input_2_mask = (j + 2) < HIDDEN_NODES ? -1 : 0;
+            const int input_3_mask = (j + 3) < HIDDEN_NODES ? -1 : 0;
+            const int input_4_mask = (j + 4) < HIDDEN_NODES ? -1 : 0;
+            const int input_5_mask = (j + 5) < HIDDEN_NODES ? -1 : 0;
+            const int input_6_mask = (j + 6) < HIDDEN_NODES ? -1 : 0;
+            const int input_7_mask = (j + 7) < HIDDEN_NODES ? -1 : 0;
+
+            const __m256i input_load_mask = _mm256_setr_epi32(
+                input_0_mask, input_1_mask, input_2_mask, input_3_mask,
+                input_4_mask, input_5_mask, input_6_mask, input_7_mask
+            );
+
+
+            const __m256 loaded_inputs = _mm256_maskload_ps(&hidden[j], input_load_mask);
+
+
+            const float weight1_0 = weight2[j][i];
+            const float weight1_1 = get_2d_array_value_or_zero(weight2, INPUT_NODES, HIDDEN_NODES, j + 1, i);
+            const float weight1_2 = get_2d_array_value_or_zero(weight2, INPUT_NODES, HIDDEN_NODES, j + 2, i);
+            const float weight1_3 = get_2d_array_value_or_zero(weight2, INPUT_NODES, HIDDEN_NODES, j + 3, i);
+            const float weight1_4 = get_2d_array_value_or_zero(weight2, INPUT_NODES, HIDDEN_NODES, j + 4, i);
+            const float weight1_5 = get_2d_array_value_or_zero(weight2, INPUT_NODES, HIDDEN_NODES, j + 5, i);
+            const float weight1_6 = get_2d_array_value_or_zero(weight2, INPUT_NODES, HIDDEN_NODES, j + 6, i);
+            const float weight1_7 = get_2d_array_value_or_zero(weight2, INPUT_NODES, HIDDEN_NODES, j + 7, i);
+
+            const __m256 loaded_weights = _mm256_set_ps(
+                weight1_0, weight1_1, weight1_2, weight1_3,
+                weight1_4, weight1_5, weight1_6, weight1_7
+            );
+
+            const __m256 multiplication_results = _mm256_mul_ps(loaded_inputs, loaded_weights);
+
+            // TODO this can be optimized by using horizontal sums (three times)
+            sum += multiplication_results[0];
+            sum += multiplication_results[1];
+            sum += multiplication_results[2];
+            sum += multiplication_results[3];
+            sum += multiplication_results[4];
+            sum += multiplication_results[5];
+            sum += multiplication_results[6];
+            sum += multiplication_results[7];
+        }
+
+        sum += bias2[i];
+        output_layer[i] = sigmoid(sum);
+    }
+
+    int index = max_index(output_layer, OUTPUT_NODES);
+
+    correct_predictions = index == correct_label ? 1 : 0;
+    return correct_predictions;
+
+    // TODO DEPRECATED below, rewriting with AVX2 above
+
+    /*
     // Feedforward
     for (int i = 0; i < HIDDEN_NODES; i++)
     {
@@ -158,6 +306,7 @@ int test(float input[INPUT_NODES], float** weight1, float** weight2, float* bias
         sum += bias1[i];
         hidden[i] = sigmoid(sum);
     }
+
     for (int i = 0; i < OUTPUT_NODES; i++)
     {
         float sum = 0.0f;
@@ -172,7 +321,7 @@ int test(float input[INPUT_NODES], float** weight1, float** weight2, float* bias
 
     correct_predictions = index == correct_label ? 1 : 0;
      
-    return correct_predictions;
+    return correct_predictions;*/
 }
 
 // utils
@@ -244,7 +393,8 @@ int main(int argc, char *argv[]) {
     
     // load mnist dataset
     load_mnist();
-
+    int correct_outcomes; 
+    
     // measuring time
     clock_t start, end;
     double cpu_time_used = 0.0;
@@ -252,7 +402,7 @@ int main(int argc, char *argv[]) {
    
     cpu_time_used = 0.0;
     // Train the network
-    int correct_outcomes = 0;
+    correct_outcomes = 0;
     for (int i = 0; i < NUM_TRAINING_IMAGES; i++)
     {
         start = clock();
