@@ -20,7 +20,7 @@ class JobParameters:
             "number_of_compute_units": self.number_of_compute_units,
             "implementation": self.implementation,
         }
-    
+
     def write_to_file(self, file_path: Path):
         if file_path.exists():
             raise FileExistsError("File already exists.")
@@ -59,6 +59,7 @@ def prepare_and_save_job_script(
 
     job_script_file_path: Path = job_script_output_directory_path.joinpath(f"{job_full_name}.sh")
     job_log_file_path: Path = job_output_directory.joinpath(f"{job_full_name}.log")
+    job_err_file_path: Path = job_output_directory.joinpath(f"{job_full_name}.err")
     job_metadata_file_path: Path = job_output_directory.joinpath(f"{job_full_name}.json")
 
     job_parameters.write_to_file(job_metadata_file_path)
@@ -77,8 +78,12 @@ def prepare_and_save_job_script(
 #SBATCH --job-name=rs-hw4_t1-{job_hash}
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --output=\"{job_log_file_path.as_posix()}\"
+#SBATCH --output="{job_log_file_path.as_posix()}"
+#SBATCH --error="{job_err_file_path.as_posix()}"
 #SBATCH --time=01:00:00
+
+set -e
+set -x
 
 GEM5_WORKSPACE=/d/hpc/projects/FRI/GEM5/gem5_workspace
 GEM5_ROOT=$GEM5_WORKSPACE/gem5
@@ -89,22 +94,21 @@ APPTAINER_IMG=$APPTAINER_LOC/gcn-gpu_v24-0.sif
 
 echo "Running smp_benchmark.py"
 srun apptainer exec $APPTAINER_IMG $GEM5_PATH/gem5.opt \\
-    --outdir=\"{job_output_directory.as_posix()}\" \\
+    --outdir="{job_output_directory.as_posix()}" \\
         $GEM5_ROOT/configs/example/apu_se.py \\
             -n 3 --num-compute-units {job_parameters.number_of_compute_units} \\
             --gfx-version="gfx902" \\
-            -c \"{path_to_binary.as_posix()}\"
-
+            -c "{path_to_binary.as_posix()}"
 """
 
-    
+
     assert not job_script_file_path.exists()
 
     print("  > saving script to file")
 
     with job_script_file_path.open(mode="w", encoding="utf8") as script_file:
         script_file.write(job_script)
-    
+
     return job_script_file_path
 
 
@@ -127,7 +131,7 @@ def prepare_and_queue_job(
     )
 
     print("  > submitting task with sbatch")
-    
+
     submission_process = subprocess.run(
         args=["sbatch", job_script_file_path.resolve().as_posix()],
         capture_output=True,
@@ -137,7 +141,7 @@ def prepare_and_queue_job(
     submission_process_stdout = str(submission_process.stdout)
     if not submission_process_stdout.startswith("Submitted batch job") or submission_process.returncode != 0:
         raise RuntimeError(f"failed to submit (code {submission_process.returncode}): {submission_process_stdout}")
-    
+
     job_id = int(submission_process_stdout.rsplit(" ", maxsplit=1)[1])
 
     print(f"  > submitted as job {job_id}")
@@ -152,7 +156,7 @@ class CLIArguments:
 
 def parse_cli_arguments() -> CLIArguments:
     argument_parser = ArgumentParser()
-    
+
     argument_parser.add_argument(
         "--base-directory-path",
         required=False,
@@ -167,7 +171,7 @@ def parse_cli_arguments() -> CLIArguments:
     )
 
     arguments = argument_parser.parse_args()
-    
+
     base_directory_path: Path = Path(str(arguments.base_directory_path)).resolve()
     output_directory_path: Path = Path(str(arguments.output_directory_path))
 
@@ -186,7 +190,7 @@ def prepare_timestamped_output_directory(output_directory_path: Path) -> Path:
             "Output directory already exists (you ran the tool twice in a second, retry in one second.",
             file=sys.stderr
         )
-        
+
         exit(1)
 
     timestamped_output_directory_path.mkdir(parents=True, exist_ok=False)
